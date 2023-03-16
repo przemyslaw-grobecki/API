@@ -42,16 +42,16 @@ async function main() {
     });
 
     //Generate resources
-    // resources.forEach(async resource => {
-    //     console.log(resource);
-    //     const fileContent = fs.readFileSync(`${workingDirectory}/resources/${resource}`, 'utf8');
-    //     const typescriptInterfaceContent = await quicktypeJSONSchema("typescript", resource.split('.')[0], fileContent);
-    //     //console.log(typescriptInterfaceContent.lines)
-    //     fs.writeFileSync(`${workingDirectory}/generated/resources/${resource.split('.')[0]}.d.ts`, "");
-    //     typescriptInterfaceContent.lines.forEach(line => {
-    //         fs.appendFileSync(`${workingDirectory}/generated/resources/${resource.split('.')[0]}.d.ts`, `${line}${EOL}`);
-    //     });
-    // })
+    resources.forEach(async resource => {
+        console.log(resource);
+        const fileContent = fs.readFileSync(`${workingDirectory}/resources/${resource}`, 'utf8');
+        const typescriptInterfaceContent = await quicktypeJSONSchema("typescript", resource.split('.')[0], fileContent);
+        //console.log(typescriptInterfaceContent.lines)
+        fs.writeFileSync(`${workingDirectory}/generated/resources/${resource.split('.')[0]}.d.ts`, "");
+        typescriptInterfaceContent.lines.forEach(line => {
+            fs.appendFileSync(`${workingDirectory}/generated/resources/${resource.split('.')[0]}.d.ts`, `${line}${EOL}`);
+        });
+    })
 
 
     //const { lines: pythonPerson } = await quicktypeJSONSchema("typescript", "Pokemon", jsonSchemaString);
