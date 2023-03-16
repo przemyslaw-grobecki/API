@@ -1,0 +1,24 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "/primitives/Move.json",
+    "title": "Move",
+    "description": "A pokemon's move.",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer"
+        },
+        "type": {
+            "$ref": "./primitives/Type.json"
+        },
+        "category": {
+            "$ref": "./primitives/Category.json"
+        },
+        "accuracy": {
+            "type": "integer"
+        },
+        "power": {
+            "type": "integer"
+        }
+    }
+}

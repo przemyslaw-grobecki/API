@@ -1,0 +1,12 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "/primitives/Category.json",
+    "title": "Category",
+    "description": "A pokemon move's category.",
+    "type": "string",
+    "enum": [
+        "Physical",
+        "Special",
+        "Status"
+    ]
+}

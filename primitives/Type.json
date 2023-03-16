@@ -1,0 +1,27 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "/primitives/Type.json",
+    "title": "Type",
+    "description": "A pokemon's type.",
+    "type": "string",
+    "enum": [
+        "normal", 
+        "fire", 
+        "water",
+        "grass",
+        "electric",
+        "ice",
+        "fighting",
+        "poison",
+        "ground",
+        "flying",
+        "psychic",
+        "bug",
+        "rock",
+        "ghost",
+        "dark",
+        "dragon",
+        "steel",
+        "fairy"
+    ]
+}

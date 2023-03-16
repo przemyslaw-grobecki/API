@@ -1,0 +1,98 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "/resources/Pokemon.json",
+    "title": "Pokemon",
+    "description": "A pokemon.",
+    "type": "object",
+    "properties": {
+        "id": {
+            "description": "The unique identifier for a pokemon",
+            "type": "integer"
+        },
+        "evolution": {
+            "description": "The actual pokemon evolution",
+            "type": "integer"
+        },
+        "level":{
+            "description": "As the user will complete activities pokemon level will rise and increase pokemon stats",
+            "type": "integer"
+        },
+        "name": {
+            "description": "Name of the pokemon",
+            "type": "string"
+        },
+        "types": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 2,
+            "uniqueItems": true,
+            "items": {
+                "$ref": "./primitives/Type.json"
+            }
+        },
+        "moves": {
+            "description": "List of moves a certain pokemon already learned",
+            "type": "array",
+            "items": {
+                "$ref": "./primitives/Move.json"
+            },
+            "minItems": 1,
+            "maxItems": 4,
+            "uniqueItems": true
+        },
+        "abilities": {
+            "description": "Passive effects that a certain pokemon has by it's birthright",
+            "type": "array",
+            "items": {
+                "$ref": "./primitives/Ability.json" 
+            },
+            "uniqueItems": true,
+            "maxItems": 3
+        },
+        "generation": {
+            "description": "The generation in which the pokemon was introduced",
+            "type": "integer"
+        },
+        "gender": {
+            "$ref": "./primitives/Gender.json" 
+        },
+        "friendship": {
+            "type": "integer"
+        },
+        "hp": {
+            "type": "integer"
+        },
+        "attack": {
+            "type": "integer"
+        },
+        "defence": {
+            "type": "integer"
+        },
+        "specialAttack": {
+            "type": "integer"
+        },
+        "specialDefence": {
+            "type": "integer"
+        },
+        "speed": {
+            "type": "integer"
+        }
+    },
+    "required": [
+        "id",
+        "evolution", 
+        "price", 
+        "types", 
+        "moves", 
+        "abilities", 
+        "generation", 
+        "gender", 
+        "friendship", 
+        "hp",
+        "attack",
+        "defence",
+        "specialAttack",
+        "specialDefence",
+        "speed"
+    ]
+}
