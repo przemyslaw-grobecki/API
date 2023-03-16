@@ -8,3 +8,6 @@ In order to add, or extend the functionalities of the whole system, one has to e
 
 # Clients
 TBD
+
+# Validators
+TBD
