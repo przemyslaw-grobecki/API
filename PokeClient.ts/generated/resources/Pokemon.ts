@@ -1,3 +1,5 @@
+import BasePokeResource from '../../BasePokeResource';
+
 // To parse this data:
 //
 //   import { Convert, Pokemon } from "./file";
@@ -10,7 +12,7 @@
 /**
  * A pokemon.
  */
-export interface Pokemon {
+export class Pokemon extends BasePokeResource {
     /**
      * Passive effects that a certain pokemon has by it's birthright
      */

@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "/primitives/Move.json",
+    "$id": "/resources/Move.json",
     "title": "Move",
     "description": "A pokemon's move.",
     "type": "object",
@@ -18,6 +18,9 @@
             "type": "integer"
         },
         "power": {
+            "type": "integer"
+        },
+        "energyPoints":{
             "type": "integer"
         }
     }

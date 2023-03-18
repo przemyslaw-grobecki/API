@@ -1,3 +1,5 @@
+import BasePokeResource from '../../BasePokeResource';
+
 // To parse this data:
 //
 //   import { Convert, Move } from "./file";
@@ -10,12 +12,13 @@
 /**
  * A pokemon's move.
  */
-export interface Move {
-    accuracy?: number;
-    category?: Category;
-    id?:       number;
-    power?:    number;
-    type?:     Type;
+export class Move extends BasePokeResource {
+    accuracy?:     number;
+    category?:     Category;
+    energyPoints?: number;
+    id?:           number;
+    power?:        number;
+    type?:         Type;
     [property: string]: any;
 }
 
@@ -220,6 +223,7 @@ const typeMap: any = {
     "Move": o([
         { json: "accuracy", js: "accuracy", typ: u(undefined, 0) },
         { json: "category", js: "category", typ: u(undefined, r("Category")) },
+        { json: "energyPoints", js: "energyPoints", typ: u(undefined, 0) },
         { json: "id", js: "id", typ: u(undefined, 0) },
         { json: "power", js: "power", typ: u(undefined, 0) },
         { json: "type", js: "type", typ: u(undefined, r("Type")) },

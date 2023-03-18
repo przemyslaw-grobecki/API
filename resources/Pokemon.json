@@ -30,16 +30,6 @@
                 "$ref": "./primitives/Type.json"
             }
         },
-        "moves": {
-            "description": "List of moves a certain pokemon already learned",
-            "type": "array",
-            "items": {
-                "$ref": "./primitives/Move.json"
-            },
-            "minItems": 1,
-            "maxItems": 4,
-            "uniqueItems": true
-        },
         "abilities": {
             "description": "Passive effects that a certain pokemon has by it's birthright",
             "type": "array",

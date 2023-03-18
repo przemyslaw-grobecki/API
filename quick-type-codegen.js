@@ -7,6 +7,7 @@ import {
 } from 'quicktype-core';
 import fs from 'fs';
 import { EOL } from 'os';
+//import ts from 'ts';
 
 async function quicktypeJSONSchema(targetLanguage, typeName, jsonSchemaString) {
     const schemaInput = new JSONSchemaInput(new FetchingJSONSchemaStore());
@@ -32,30 +33,35 @@ async function main() {
     //Generate primitives
     primitives.forEach(async primitive => {
         console.log(primitive);
+        const primitiveName = primitive.split('.')[0];
         const fileContent = fs.readFileSync(`${workingDirectory}/primitives/${primitive}`, 'utf8');
-        const typescriptInterfaceContent = await quicktypeJSONSchema("typescript", primitive.split('.')[0], fileContent);
-        //console.log(typescriptInterfaceContent.lines)
-        fs.writeFileSync(`${workingDirectory}/generated/primitives/${primitive.split('.')[0]}.d.ts`, "");
+        const typescriptInterfaceContent = await quicktypeJSONSchema("typescript", primitiveName, fileContent);
+        fs.writeFileSync(`${workingDirectory}/PokeClient.ts/generated/primitives/${primitiveName}.ts`, "");
         typescriptInterfaceContent.lines.forEach(line => {
-            fs.appendFileSync(`${workingDirectory}/generated/primitives/${primitive.split('.')[0]}.d.ts`, `${line}${EOL}`);
+            fs.appendFileSync(`${workingDirectory}/PokeClient.ts/generated/primitives/${primitiveName}.ts`, `${line}${EOL}`);
         });
     });
 
     //Generate resources
     resources.forEach(async resource => {
         console.log(resource);
+        const resourceName = resource.split('.')[0];
         const fileContent = fs.readFileSync(`${workingDirectory}/resources/${resource}`, 'utf8');
-        const typescriptInterfaceContent = await quicktypeJSONSchema("typescript", resource.split('.')[0], fileContent);
-        //console.log(typescriptInterfaceContent.lines)
-        fs.writeFileSync(`${workingDirectory}/generated/resources/${resource.split('.')[0]}.d.ts`, "");
+        const typescriptInterfaceContent = await quicktypeJSONSchema("typescript", resourceName, fileContent);
+        fs.writeFileSync(`${workingDirectory}/PokeClient.ts/generated/resources/${resourceName}.ts`, "");
+        fs.appendFileSync(`${workingDirectory}/PokeClient.ts/generated/resources/${resourceName}.ts`, 
+            `import BasePokeResource from '../../BasePokeResource';${EOL}${EOL}`);
         typescriptInterfaceContent.lines.forEach(line => {
-            fs.appendFileSync(`${workingDirectory}/generated/resources/${resource.split('.')[0]}.d.ts`, `${line}${EOL}`);
+            if(line.includes("export interface " + resourceName)){
+                line = `export class ${resourceName} extends BasePokeResource {`
+            }
+            fs.appendFileSync(`${workingDirectory}/PokeClient.ts/generated/resources/${resourceName}.ts`, `${line}${EOL}`);
         });
-    })
+    });
 
+    //Generate Typescript Client
+    //TODO: Design schema that ts source creator understand 
 
-    //const { lines: pythonPerson } = await quicktypeJSONSchema("typescript", "Pokemon", jsonSchemaString);
-    //console.log(pythonPerson.join("\n"));
 }
 
 main();
