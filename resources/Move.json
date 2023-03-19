@@ -4,8 +4,12 @@
     "title": "Move",
     "description": "A pokemon's move.",
     "type": "object",
+    "required": ["id"],
     "properties": {
         "id": {
+            "type": "integer"
+        },
+        "pokemonId":{
             "type": "integer"
         },
         "type": {
@@ -23,5 +27,13 @@
         "energyPoints":{
             "type": "integer"
         }
-    }
+    },
+    "operations": [
+        "ADD",
+        "MODIFY",
+        "DELETE",
+        "GET"
+    ],
+    "relation": "POKEMON",
+    "collection": true
 }

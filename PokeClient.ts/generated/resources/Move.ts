@@ -1,5 +1,7 @@
 import BasePokeResource from '../../BasePokeResource';
 
+export const MOVE_ROUTE : string = "/pokemon/{id}/move";
+
 // To parse this data:
 //
 //   import { Convert, Move } from "./file";
@@ -16,10 +18,19 @@ export class Move extends BasePokeResource {
     accuracy?:     number;
     category?:     Category;
     energyPoints?: number;
-    id?:           number;
+    id:            number;
+    pokemonId?:    number;
     power?:        number;
     type?:         Type;
-    [property: string]: any;
+	Delete = () : void => {
+		this.HttpDelete(MOVE_ROUTE);
+	}
+
+	Modify = () : void => {
+		this.HttpPatch(MOVE_ROUTE);
+	}
+
+
 }
 
 /**
@@ -57,7 +68,7 @@ export enum Type {
 
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
-export class Convert {
+export class MoveConverter {
     public static toMove(json: string): Move {
         return cast(JSON.parse(json), r("Move"));
     }
@@ -224,7 +235,8 @@ const typeMap: any = {
         { json: "accuracy", js: "accuracy", typ: u(undefined, 0) },
         { json: "category", js: "category", typ: u(undefined, r("Category")) },
         { json: "energyPoints", js: "energyPoints", typ: u(undefined, 0) },
-        { json: "id", js: "id", typ: u(undefined, 0) },
+        { json: "id", js: "id", typ: 0 },
+        { json: "pokemonId", js: "pokemonId", typ: u(undefined, 0) },
         { json: "power", js: "power", typ: u(undefined, 0) },
         { json: "type", js: "type", typ: u(undefined, r("Type")) },
     ], "any"),

@@ -84,5 +84,12 @@
         "specialAttack",
         "specialDefence",
         "speed"
-    ]
+    ],
+    "operations":[
+        "ADD",
+        "MODIFY",
+        "DELETE",
+        "GET"
+    ],
+    "collection": true
 }

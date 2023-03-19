@@ -1,5 +1,7 @@
 import BasePokeResource from '../../BasePokeResource';
 
+export const POKEMON_ROUTE : string = "/pokemon";
+
 // To parse this data:
 //
 //   import { Convert, Pokemon } from "./file";
@@ -48,7 +50,15 @@ export class Pokemon extends BasePokeResource {
     types:          Type[];
     price:          any;
     moves:          any;
-    [property: string]: any;
+	Delete = () : void => {
+		this.HttpDelete(POKEMON_ROUTE);
+	}
+
+	Modify = () : void => {
+		this.HttpPatch(POKEMON_ROUTE);
+	}
+
+
 }
 
 /**
@@ -167,7 +177,7 @@ export enum Type {
 
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
-export class Convert {
+export class PokemonConverter {
     public static toPokemon(json: string): Pokemon {
         return cast(JSON.parse(json), r("Pokemon"));
     }
