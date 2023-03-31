@@ -23,12 +23,12 @@ export class Move extends BasePokeResource {
     power?:        number;
     type?:         Type;
 	Delete = () : void => {
-		this.HttpDelete(MOVE_ROUTE);
-	}
+    		this.HttpDelete(MOVE_ROUTE);
+    	}
 
 	Modify = () : void => {
-		this.HttpPatch(MOVE_ROUTE);
-	}
+    		this.HttpPatch(MOVE_ROUTE);
+    	}
 
 
 }
