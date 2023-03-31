@@ -51,12 +51,12 @@ export class Pokemon extends BasePokeResource {
     price:          any;
     moves:          any;
 	Delete = () : void => {
-		this.HttpDelete(POKEMON_ROUTE);
-	}
+    		this.HttpDelete(POKEMON_ROUTE);
+    	}
 
 	Modify = () : void => {
-		this.HttpPatch(POKEMON_ROUTE);
-	}
+    		this.HttpPatch(POKEMON_ROUTE);
+    	}
 
 
 }

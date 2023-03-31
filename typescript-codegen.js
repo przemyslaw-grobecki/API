@@ -3,8 +3,7 @@ import {
     InputData,
     jsonInputForTargetLanguage,
     JSONSchemaInput,
-    FetchingJSONSchemaStore,
-    SerializedRenderResult,
+    FetchingJSONSchemaStore
 } from "quicktype-core";
 import * as fs from "fs";
 import { EOL } from "os";
@@ -12,26 +11,26 @@ import { EOL } from "os";
 
 class PrimitiveData {
     constructor(
-        name: string,
-        rawStringContent: string,
-        typescriptInterfaceContent: SerializedRenderResult
+        name,
+        rawStringContent,
+        typescriptInterfaceContent
     ) {
         this.name = name;
         this.rawStringContent = rawStringContent;
         this.typescriptInterfaceContent = typescriptInterfaceContent;
     }
-    public name: string;
-    public rawStringContent: string;
-    public typescriptInterfaceContent: SerializedRenderResult;
+    name;
+    rawStringContent;
+    typescriptInterfaceContent;
 }
 
 class ResourceData {
     constructor(
-        name: string,
-        route: string,
-        rawStringContent: string,
-        jsonContent: any,
-        typescriptInterfaceContent: SerializedRenderResult
+        name,
+        route,
+        rawStringContent,
+        jsonContent,
+        typescriptInterfaceContent
     ) {
         this.name = name;
         this.route = route;
@@ -39,24 +38,20 @@ class ResourceData {
         this.jsonContent = jsonContent;
         this.typescriptInterfaceContent = typescriptInterfaceContent;
     }
-    public name: string;
-    public route: string;
-    public rawStringContent: string;
-    public jsonContent: any;
-    public typescriptInterfaceContent: SerializedRenderResult;
+    name;
+    route;
+    rawStringContent;
+    jsonContent;
+    typescriptInterfaceContent;
 }
 
 class TypescriptCodegenHelper {
-    private resourcesPath: string | null = null;
-    private primitivesPath: string | null = null;
-    private primitives: Array<PrimitiveData> = new Array<PrimitiveData>();
-    private resources: Array<ResourceData> = new Array<ResourceData>();
+    resourcesPath = null;
+    primitivesPath = null;
+    primitives = [];
+    resources = [];
 
-    private getRelativePath = (jsonObject: {
-        title: string;
-        relation: string;
-        collection: any;
-    }) => {
+    getRelativePath = (jsonObject) => {
         let relativePath = "/" + jsonObject.title.toLowerCase();
 
         if (jsonObject.relation) {
@@ -74,10 +69,10 @@ class TypescriptCodegenHelper {
         return relativePath;
     };
 
-    private async quicktypeJSONSchema(
-        targetLanguage: string,
-        typeName: string,
-        jsonSchemaString: string
+    async quicktypeJSONSchema(
+        targetLanguage,
+        typeName,
+        jsonSchemaString
     ) {
         const schemaInput = new JSONSchemaInput(new FetchingJSONSchemaStore());
     
@@ -94,26 +89,26 @@ class TypescriptCodegenHelper {
         });
     }
 
-    private generateDelete = (resourceName: string) => {
+    generateDelete = (resourceName) => {
         return `\tDelete = () : void => {
     \t\tthis.HttpDelete(${resourceName.toUpperCase()}_ROUTE);
     \t}${EOL}${EOL}`;
     };
     
-    private generatePatch = (resourceName: string) => {
+    generatePatch = (resourceName) => {
         return `\tModify = () : void => {
     \t\tthis.HttpPatch(${resourceName.toUpperCase()}_ROUTE);
     \t}${EOL}${EOL}`;
     };
     
-    private capitalizeFirstLetter = (string: string) => {
+    capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     };
 
-    public LoadPrimitives = async (primitivesPath: string) => {
-        const primitiveFileNames: Array<string> =
-            fs.readdirSync(primitivesPath);
-        primitiveFileNames.forEach(async (fileName) => {
+    LoadPrimitives = async (primitivesPath) => {
+        this.primitivesPath = primitivesPath;
+        const primitiveFileNames = fs.readdirSync(primitivesPath);
+        for(const fileName of primitiveFileNames){
             const primitiveName = fileName.split(".")[0];
             const fileContent = fs.readFileSync(
                 `${primitivesPath}/${fileName}`,
@@ -126,18 +121,18 @@ class TypescriptCodegenHelper {
             );
             this.primitives.push(
                 new PrimitiveData(
-                    fileName,
+                    primitiveName,
                     fileContent,
                     typescriptInterfaceContent
                 )
             );
-        });
-        this.primitivesPath = primitivesPath;
+        };
     };
 
-    public LoadResources = async (resourcesPath: string) => {
-        const resourcesFileNames: Array<string> = fs.readdirSync(resourcesPath);
-        resourcesFileNames.forEach(async (fileName) => {
+    LoadResources = async (resourcesPath) => {
+        this.resourcesPath = resourcesPath;
+        const resourcesFileNames = fs.readdirSync(resourcesPath);
+        for(const fileName of resourcesFileNames){
             const resourceName = fileName.split(".")[0];
             const fileContent = fs.readFileSync(
                 `${resourcesPath}/${fileName}`,
@@ -152,18 +147,17 @@ class TypescriptCodegenHelper {
             const resourceRoute = this.getRelativePath(jsonContent);
             this.resources.push(
                 new ResourceData(
-                    fileName,
+                    resourceName,
                     resourceRoute,
                     fileContent,
                     jsonContent,
                     typescriptInterfaceContent
                 )
             );
-        });
-        this.resourcesPath = resourcesPath;
+        };
     };
 
-    public GenerateResources = async (generationPath: string) => {
+    GenerateResources = async (generationPath) => {
         if (this.resources.length == 0 || this.resourcesPath == null) {
             console.log("Resources were not generated!")
             return;
@@ -176,7 +170,7 @@ class TypescriptCodegenHelper {
                 `import BasePokeResource from '../../BasePokeResource';${EOL}${EOL}`
             );
             fs.appendFileSync(
-                `${generationPath}${resource.name}.ts`,
+                `${generationPath}/${resource.name}.ts`,
                 `export const ${resource.name.toUpperCase()}_ROUTE : string = "${
                     resource.route
                 }";${EOL + EOL}`
@@ -205,7 +199,7 @@ class TypescriptCodegenHelper {
         });
     };
 
-    public GeneratePrimitives = async (generationPath: string) => {
+    GeneratePrimitives = async (generationPath) => {
         if (this.primitives.length == 0 || this.primitivesPath == null) {
             console.log("Primitives were not generated!")
             return;
@@ -232,7 +226,7 @@ const resourcesSchemasPath = `${workingDirectory}/resources`;
 const primitivesGenerationPath = `${workingDirectory}/PokeClient.ts/generated/primitives`;
 const resourcesGenerationPath = `${workingDirectory}/PokeClient.ts/generated/resources`;
 
-const codegenHelper : TypescriptCodegenHelper = new TypescriptCodegenHelper();
+const codegenHelper = new TypescriptCodegenHelper();
 codegenHelper.LoadPrimitives(primitivesSchemasPath).then((val) => {
     codegenHelper.GeneratePrimitives(primitivesGenerationPath);
 });
