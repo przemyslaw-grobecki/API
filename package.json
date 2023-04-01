@@ -1,6 +1,6 @@
 {
   "name": "@przemyslaw-grobecki/pokemonapi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "��#\u0000 \u0000P\u0000o\u0000k\u0000e\u0000m\u0000o\u0000n\u0000A\u0000P\u0000I\u0000\r\u0000 \u0000",
   "main": "index.js",
@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "publishConfig": {
-    "@przemyslaw_grobecki:registry":"https://npm.pkg.github.com/"
+    "@przemyslaw_grobecki:registry": "https://npm.pkg.github.com/"
   },
   "repository": {
     "type": "git",
