@@ -255,18 +255,22 @@ class TypescriptCodegenHelper {
                     );
                     break;
                     case "ADD":
+                        fs.appendFileSync(
+                            `${generationPath}/${resource.name}Api.ts`,
 `
 \tpublic Post = async (id: string, ${resource.name.toLowerCase()}: ${this.capitalizeFirstLetter(resource.name)}) : Promise<void> => {
 \t\tawait this.HttpPost(this.priorPath + ${resource.name.toUpperCase()}_ROUTE, ${resource.name.toLowerCase()});
 \t}
-`
+`);
                     break;
                     case "MODIFY":
+                    fs.appendFileSync(
+                        `${generationPath}/${resource.name}Api.ts`,
 `      
-\tpublic Patch = async (id: string, patch: ${this.capitalizeFirstLetter(resource.name)}) : Promise<${this.capitalizeFirstLetter(resource.name)}> => { : Promise<${this.capitalizeFirstLetter(resource.name)}> => {
+\tpublic Patch = async (id: string, patch: ${this.capitalizeFirstLetter(resource.name)}) : Promise<${this.capitalizeFirstLetter(resource.name)}> => {
 \t\treturn await this.HttpPatch(this.priorPath + ${resource.name.toUpperCase()}_ROUTE + "/" + id, patch);
 \t}
-`
+`)
                     break;
                     case "DELETE":
                     fs.appendFileSync(
