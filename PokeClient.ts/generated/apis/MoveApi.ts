@@ -5,6 +5,14 @@ import { MOVE_ROUTE } from "../routes/MoveRoute";
 export default class MoveApi extends BaseApi<Move> {
 	/**	 * Standard CRUD	 */
 
+	public Post = async (id: string, move: Move) : Promise<void> => {
+		await this.HttpPost(this.priorPath + MOVE_ROUTE, move);
+	}
+      
+	public Patch = async (id: string, patch: Move) : Promise<Move> => {
+		return await this.HttpPatch(this.priorPath + MOVE_ROUTE + "/" + id, patch);
+	}
+
 	public Delete = async (id: string) : Promise<void> => {
 		await this.HttpDelete(this.priorPath + MOVE_ROUTE + "/" + id);
 	}
