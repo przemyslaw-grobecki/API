@@ -3,7 +3,7 @@ import axios, {isCancel, AxiosError, AxiosRequestConfig} from 'axios';
 export default abstract class BaseApi<T> {
     priorPath: string;
     
-    public con(priorPath: string = ""){
+    public constructor(priorPath: string = ""){
         this.priorPath = priorPath;
     }
 
