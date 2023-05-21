@@ -1,6 +1,6 @@
 import IPokeClient from "./IPokeClient";
-import MoveApi from "../apis/MoveApi";
-import PokemonApi from "../apis/PokemonApi";
+import MoveApi from "../generated/apis/MoveApi";
+import PokemonApi from "../generated/apis/PokemonApi";
 
 export default class PokeClient implements IPokeClient 
 {

@@ -333,7 +333,7 @@ import IUserAuthentication from "./IUserAuthentication";
                 `${generationPath}/IPokeClient.ts`,
                 `import ${this.capitalizeFirstLetter(
                     resource.name
-                )}Api from "../apis/${this.capitalizeFirstLetter(
+                )}Api from "../generated/apis/${this.capitalizeFirstLetter(
                     resource.name
                 )}Api";${EOL}`
             );
@@ -379,7 +379,7 @@ export default interface IPokeClient extends IUserAuthentication
                 `${generationPath}/PokeClient.ts`,
                 `import ${this.capitalizeFirstLetter(
                     resource.name
-                )}Api from "../apis/${this.capitalizeFirstLetter(
+                )}Api from "../generated/apis/${this.capitalizeFirstLetter(
                     resource.name
                 )}Api";${EOL}`
             );
