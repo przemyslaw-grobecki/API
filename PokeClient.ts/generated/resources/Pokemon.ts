@@ -1,6 +1,5 @@
-import BasePokeResource from '../../BasePokeResource';
-
-export const POKEMON_ROUTE : string = "/pokemon";
+import MoveApi from '../apis/MoveApi';
+import { POKEMON_ROUTE } from '../routes/PokemonRoute';
 
 // To parse this data:
 //
@@ -14,7 +13,14 @@ export const POKEMON_ROUTE : string = "/pokemon";
 /**
  * A pokemon.
  */
-export class Pokemon extends BasePokeResource {
+export class Pokemon {
+/**
+* Child apis
+*/
+	getMoveApi = () => {
+		return new MoveApi(POKEMON_ROUTE+this.id);
+	}
+
     /**
      * Passive effects that a certain pokemon has by it's birthright
      */
@@ -49,16 +55,7 @@ export class Pokemon extends BasePokeResource {
     speed:          number;
     types:          Type[];
     price:          any;
-    moves:          any;
-	Delete = () : void => {
-    		this.HttpDelete(POKEMON_ROUTE);
-    	}
-
-	Modify = () : void => {
-    		this.HttpPatch(POKEMON_ROUTE);
-    	}
-
-
+    [property: string]: any;
 }
 
 /**
@@ -357,7 +354,6 @@ const typeMap: any = {
         { json: "speed", js: "speed", typ: 0 },
         { json: "types", js: "types", typ: a(r("Type")) },
         { json: "price", js: "price", typ: "any" },
-        { json: "moves", js: "moves", typ: "any" },
     ], "any"),
     "Ability": [
         "air_lock",

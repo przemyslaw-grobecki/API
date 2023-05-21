@@ -73,7 +73,6 @@
         "evolution", 
         "price", 
         "types", 
-        "moves", 
         "abilities", 
         "generation", 
         "gender", 
@@ -85,11 +84,13 @@
         "specialDefence",
         "speed"
     ],
-    "operations":[
+    "operations": [
         "ADD",
         "MODIFY",
         "DELETE",
         "GET"
     ],
-    "collection": true
+    "children": [
+        "move"
+    ]
 }
