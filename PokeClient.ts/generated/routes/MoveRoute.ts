@@ -1,2 +1,2 @@
-export const MOVE_ROUTE : string = "/pokemon/move";
+export const MOVE_ROUTE : string = "/move";
 
