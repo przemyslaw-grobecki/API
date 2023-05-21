@@ -89,18 +89,6 @@ class TypescriptCodegenHelper {
         });
     }
 
-    generateDelete = (resourceName) => {
-        return `\tDelete = () : void => {
-    \t\tthis.HttpDelete(${resourceName.toUpperCase()}_ROUTE);
-    \t}${EOL}${EOL}`;
-    };
-    
-    generatePatch = (resourceName) => {
-        return `\tModify = () : void => {
-    \t\tthis.HttpPatch(${resourceName.toUpperCase()}_ROUTE);
-    \t}${EOL}${EOL}`;
-    };
-    
     capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     };
@@ -165,31 +153,29 @@ class TypescriptCodegenHelper {
         this.resources.forEach((resource) => {
             console.log(resource.name);
             fs.writeFileSync(`${generationPath}/${resource.name}.ts`, "");
-            fs.appendFileSync(
-                `${generationPath}/${resource.name}.ts`,
-                `import BasePokeResource from '../../BasePokeResource';${EOL}${EOL}`
-            );
-            fs.appendFileSync(
-                `${generationPath}/${resource.name}.ts`,
-                `export const ${resource.name.toUpperCase()}_ROUTE : string = "${
-                    resource.route
-                }";${EOL + EOL}`
-            );
+            //If children apis needed, add imports
+            resource.jsonContent?.children?.forEach((child) => {
+                fs.appendFileSync(
+                    `${generationPath}/${resource.name}.ts`,
+                    `import ${this.capitalizeFirstLetter(child)}Api from '../apis/${this.capitalizeFirstLetter(child)}Api';${EOL}` +
+                    `import { ${resource.name.toUpperCase()}_ROUTE } from '../routes/${this.capitalizeFirstLetter(resource.name)}Route';${EOL}${EOL}` 
+                );
+            }) 
+
             resource.typescriptInterfaceContent.lines.forEach((line) => {
                 if (line.includes("export interface " + resource.name)) {
-                    line = `export class ${resource.name} extends BasePokeResource {`;
+                    line = `export class ${resource.name} {` + EOL +
+`/**
+* Child apis
+*/` + EOL;
+                    resource.jsonContent?.children?.forEach((child) => {
+                        line += `\tget${this.capitalizeFirstLetter(child)}Api = () => {${EOL}` +
+                        `\t\treturn new ${this.capitalizeFirstLetter(child)}Api(${resource.name.toUpperCase()}_ROUTE+this.id);${EOL}` +
+                        `\t}${EOL}`
+                    });
                 }
                 if (line.includes("export class Convert")) {
                     line = `export class ${resource.name}Converter {`;
-                }
-                if (line.includes("[property: string]: any;")) {
-                    line = "";
-                    if (resource.jsonContent.operations.includes("DELETE")) {
-                        line += this.generateDelete(resource.name);
-                    }
-                    if (resource.jsonContent.operations.includes("MODIFY")) {
-                        line += this.generatePatch(resource.name);
-                    }
                 }
                 fs.appendFileSync(
                     `${generationPath}/${resource.name}.ts`,
@@ -218,6 +204,93 @@ class TypescriptCodegenHelper {
             });
         });
     };
+
+    GenerateRoutes = async (generationPath) => {
+        if (this.resources.length == 0 || this.resourcesPath == null) {
+            console.log("Resources were not generated!")
+            return;
+        }
+        this.resources.forEach((resource) => {
+            fs.writeFileSync(
+                `${generationPath}/${resource.name}Route.ts`,
+                `export const ${resource.name.toUpperCase()}_ROUTE : string = "${
+                    resource.route
+                }";${EOL + EOL}`
+            );
+        });
+    };
+
+    GenerateApis = async (generationPath) => {
+        if (this.resources.length == 0 || this.resourcesPath == null) {
+            console.log("Resources were not generated!")
+            return;
+        }
+        this.resources.forEach((resource) => {
+            fs.writeFileSync(`${generationPath}/${resource.name}Api.ts`, "");
+            fs.appendFileSync(
+                `${generationPath}/${resource.name}Api.ts`,
+                `import BaseApi from "../../BaseApi";${EOL}` +
+                `import { ${this.capitalizeFirstLetter(resource.name)} } from "../resources/${this.capitalizeFirstLetter(resource.name)}";${EOL}` +
+                `import { ${resource.name.toUpperCase()}_ROUTE } from "../routes/${this.capitalizeFirstLetter(resource.name)}Route";${EOL}${EOL}` +
+                `export default class ${this.capitalizeFirstLetter(resource.name)}Api extends BaseApi<${this.capitalizeFirstLetter(resource.name)}> {${EOL}` +
+                `\t/**` +
+                `\t * Standard CRUD` +
+                `\t */${EOL}`
+            );
+
+            resource.jsonContent?.operations?.forEach((operation) => {
+                switch (operation) {
+                    case "GET":
+                    fs.appendFileSync(
+                        `${generationPath}/${resource.name}Api.ts`,
+`
+\tpublic GetAll = async () : Promise<Array<${this.capitalizeFirstLetter(resource.name)}>> => {
+\t\treturn await this.HttpGetAll(this.priorPath + ${resource.name.toUpperCase()}_ROUTE);
+\t}
+
+\tpublic Get = async (id: string) : Promise<${this.capitalizeFirstLetter(resource.name)}> => {
+\t\treturn await this.HttpGet(this.priorPath + ${resource.name.toUpperCase()}_ROUTE + "/" + id);
+\t}
+`
+                    );
+                    break;
+                    case "ADD":
+`
+\tpublic Post = async (id: string, ${resource.name.toLowerCase()}: ${this.capitalizeFirstLetter(resource.name)}) : Promise<void> => {
+\t\tawait this.HttpPost(this.priorPath + ${resource.name.toUpperCase()}_ROUTE, ${resource.name.toLowerCase()});
+\t}
+`
+                    break;
+                    case "MODIFY":
+`      
+\tpublic Patch = async (id: string, patch: ${this.capitalizeFirstLetter(resource.name)}) : Promise<${this.capitalizeFirstLetter(resource.name)}> => { : Promise<${this.capitalizeFirstLetter(resource.name)}> => {
+\t\treturn await this.HttpPatch(this.priorPath + ${resource.name.toUpperCase()}_ROUTE + "/" + id, patch);
+\t}
+`
+                    break;
+                    case "DELETE":
+                    fs.appendFileSync(
+                        `${generationPath}/${resource.name}Api.ts`,
+`
+\tpublic Delete = async (id: string) : Promise<void> => {
+\t\tawait this.HttpDelete(this.priorPath + ${resource.name.toUpperCase()}_ROUTE + "/" + id);
+\t}
+`
+                    );
+                    break;
+                }
+            })
+            
+            fs.appendFileSync(
+                `${generationPath}/${resource.name}Api.ts`,
+                `}${EOL}`
+            );
+        })
+    };
+
+    GenerateClientInterface = async (generationPath) => {
+    
+    };
 }
 
 const workingDirectory = process.cwd();
@@ -225,11 +298,20 @@ const primitivesSchemasPath = `${workingDirectory}/primitives`;
 const resourcesSchemasPath = `${workingDirectory}/resources`;
 const primitivesGenerationPath = `${workingDirectory}/PokeClient.ts/generated/primitives`;
 const resourcesGenerationPath = `${workingDirectory}/PokeClient.ts/generated/resources`;
+const routesGenerationPath = `${workingDirectory}/PokeClient.ts/generated/routes`;
+const clientInterfaceGenerationPath = `${workingDirectory}/PokeClient.ts/generated`;
+const apisGenerationPath = `${workingDirectory}/PokeClient.ts/generated/apis`;
+
 
 const codegenHelper = new TypescriptCodegenHelper();
 codegenHelper.LoadPrimitives(primitivesSchemasPath).then((val) => {
     codegenHelper.GeneratePrimitives(primitivesGenerationPath);
 });
+
 codegenHelper.LoadResources(resourcesSchemasPath).then((val) => {
     codegenHelper.GenerateResources(resourcesGenerationPath);
+    codegenHelper.GenerateRoutes(routesGenerationPath);
+    codegenHelper.GenerateClientInterface(clientInterfaceGenerationPath);
+    codegenHelper.GenerateApis(apisGenerationPath);
 });
+

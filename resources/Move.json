@@ -34,6 +34,5 @@
         "DELETE",
         "GET"
     ],
-    "relation": "POKEMON",
-    "collection": true
+    "relation": "POKEMON"
 }

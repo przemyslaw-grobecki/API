@@ -1,7 +1,3 @@
-import BasePokeResource from '../../BasePokeResource';
-
-export const MOVE_ROUTE : string = "/pokemon/{id}/move";
-
 // To parse this data:
 //
 //   import { Convert, Move } from "./file";
@@ -14,7 +10,11 @@ export const MOVE_ROUTE : string = "/pokemon/{id}/move";
 /**
  * A pokemon's move.
  */
-export class Move extends BasePokeResource {
+export class Move {
+/**
+* Child apis
+*/
+
     accuracy?:     number;
     category?:     Category;
     energyPoints?: number;
@@ -22,15 +22,7 @@ export class Move extends BasePokeResource {
     pokemonId?:    number;
     power?:        number;
     type?:         Type;
-	Delete = () : void => {
-    		this.HttpDelete(MOVE_ROUTE);
-    	}
-
-	Modify = () : void => {
-    		this.HttpPatch(MOVE_ROUTE);
-    	}
-
-
+    [property: string]: any;
 }
 
 /**
