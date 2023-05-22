@@ -1,3 +1,15 @@
+import {
+    quicktype,
+    InputData,
+    jsonInputForTargetLanguage,
+    JSONSchemaInput,
+    FetchingJSONSchemaStore,
+} from "quicktype-core";
+import * as fs from "fs";
+import { EOL } from "os";
+//import ts from 'ts';
+
+
 class PrimitiveData {
     constructor(name, rawStringContent, javaClassContent) {
         this.name = name;
@@ -12,19 +24,16 @@ class PrimitiveData {
 class ResourceData {
     constructor(
         name,
-        route,
         rawStringContent,
         jsonContent,
         javaClassContent
     ) {
         this.name = name;
-        this.route = route;
         this.rawStringContent = rawStringContent;
         this.jsonContent = jsonContent;
         this.javaClassContent = javaClassContent;
     }
     name;
-    route;
     rawStringContent;
     jsonContent;
     javaClassContent;
@@ -99,11 +108,9 @@ class JavaCodegenHelper {
                 resourceName,
                 fileContent
             );
-            const resourceRoute = this.getRelativePath(jsonContent);
             this.resources.push(
                 new ResourceData(
                     resourceName,
-                    resourceRoute,
                     fileContent,
                     jsonContent,
                     javaClassContent
