@@ -39,5 +39,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
           MY_EMAIL: pgtar99@gmail.com
           MY_NAME: przemyslaw
+      - run: |
+          echo "@przemyslaw-grobecki:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
       - run: npm version patch
       - run: npm publish
