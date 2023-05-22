@@ -1,5 +1,5 @@
 {
-  "name": "@przemyslaw-grobecki/pokemonapi",
+  "name": "@przemyslaw-grobecki/api",
   "version": "1.0.3",
   "type": "module",
   "description": "��#\u0000 \u0000P\u0000o\u0000k\u0000e\u0000m\u0000o\u0000n\u0000A\u0000P\u0000I\u0000\r\u0000 \u0000",
@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/przemyslaw-grobecki/PokemonAPI.git."
+    "url": "git://github.com/przemyslaw-grobecki/API.git."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/przemyslaw-grobecki/PokemonAPI/issues"
+    "url": "https://github.com/przemyslaw-grobecki/API/issues"
   },
-  "homepage": "https://github.com/przemyslaw-grobecki/PokemonAPI#readme",
+  "homepage": "https://github.com/przemyslaw-grobecki/API#readme",
   "devDependencies": {
     "npx": "^3.0.0",
     "ts-node": "^10.9.1",
