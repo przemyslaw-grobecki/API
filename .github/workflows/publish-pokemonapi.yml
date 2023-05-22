@@ -35,9 +35,9 @@ jobs:
       - run: |
           git config --global user.email $MY_EMAIL
           git config --global user.name $MY_NAME
-      - run: npm version patch
-      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
           MY_EMAIL: pgtar99@gmail.com
           MY_NAME: przemyslaw
+      - run: npm version patch
+      - run: npm publish
