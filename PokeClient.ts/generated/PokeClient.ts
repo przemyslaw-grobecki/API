@@ -1,6 +1,8 @@
 import IPokeClient from "./IPokeClient";
+import LeagueApi from "../generated/apis/LeagueApi";
 import MoveApi from "../generated/apis/MoveApi";
 import PokemonApi from "../generated/apis/PokemonApi";
+import UserApi from "../generated/apis/UserApi";
 
 export default class PokeClient implements IPokeClient 
 {
@@ -14,8 +16,16 @@ export default class PokeClient implements IPokeClient
         throw new Error("Method not implemented."); //TODO: OAUTH
     }
 
+	getLeagueApi() : LeagueApi {
+                    return new LeagueApi();
+                }
+
 	getPokemonApi() : PokemonApi {
                     return new PokemonApi();
+                }
+
+	getUserApi() : UserApi {
+                    return new UserApi();
                 }
 
 } 
