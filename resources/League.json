@@ -1,0 +1,35 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "/resources/League.json",
+    "title": "League",
+    "description": "A league.",
+    "type": "object",
+    "properties": {
+        "id": {
+            "description": "The unique identifier for a league",
+            "type": "integer"
+        },
+        "imageUrl": {
+            "description": "An image corellated with league",
+            "type": "string"
+        },
+        "name":{
+            "description": "Leagues name",
+            "type": "string"
+        }
+    },
+    "required": [
+        "id",
+        "imageUrl", 
+        "name"
+    ],
+    "operations": [
+        "ADD",
+        "MODIFY",
+        "DELETE",
+        "GET"
+    ],
+    "children": [
+        "user"
+    ]
+}

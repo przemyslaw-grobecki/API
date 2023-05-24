@@ -1,0 +1,50 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "/resources/User.json",
+    "title": "User",
+    "description": "A user.",
+    "type": "object",
+    "properties": {
+        "id": {
+            "description": "The unique identifier for a user",
+            "type": "integer"
+        },
+        "email": {
+            "description": "email",
+            "type": "string"
+        },
+        "username":{
+            "description": "username",
+            "type": "string"
+        },
+        "hash":{
+            "description": "hash",
+            "type": "string"
+        },
+        "salt":{
+            "description": "Saltyness",
+            "type": "string"
+        },
+        "password":{
+            "description": "Password",
+            "type": "string"
+        }
+    },
+    "required": [
+        "id",
+        "email", 
+        "username",
+        "hash",
+        "salt",
+        "password"
+    ],
+    "operations": [
+        "ADD",
+        "MODIFY",
+        "DELETE",
+        "GET"
+    ],
+    "children": [
+        "league"
+    ]
+}
