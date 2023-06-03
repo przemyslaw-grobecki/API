@@ -3,7 +3,7 @@ import { Token } from './generated/PokeClient';
 
 export default abstract class BaseApi<T> {
     priorPath: string;
-
+    
     public constructor(priorPath: string = "", token : Token){
         this.priorPath = priorPath;
         this.axiosConfig = {
@@ -11,6 +11,10 @@ export default abstract class BaseApi<T> {
                 token: token
             }
         }
+    }
+
+    public refreshToken(token : Token){
+        this.axiosConfig.data.token = token;
     }
 
     /**
