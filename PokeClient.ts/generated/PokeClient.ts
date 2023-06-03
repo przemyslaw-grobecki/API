@@ -4,6 +4,8 @@ import MoveApi from "../generated/apis/MoveApi";
 import PokemonApi from "../generated/apis/PokemonApi";
 import UserApi from "../generated/apis/UserApi";
 
+export type Token = string | undefined;
+            
 export default class PokeClient implements IPokeClient 
 {
     public endpoint: string;
@@ -11,24 +13,24 @@ export default class PokeClient implements IPokeClient
         this.endpoint = "http://" + host + ":" + port;
     }
 
-    public Login(): void {
+    public Login(): Token {
         throw new Error("Method not implemented."); //TODO: OAUTH
     }
     
-    public Register(): void {
+    public Register(): Token {
         throw new Error("Method not implemented."); //TODO: OAUTH
     }
 
-	getLeagueApi() : LeagueApi {
-                    return new LeagueApi(this.endpoint);
+	getLeagueApi(token : Token) : LeagueApi {
+                    return new LeagueApi(this.endpoint, token);
                 }
 
-	getPokemonApi() : PokemonApi {
-                    return new PokemonApi(this.endpoint);
+	getPokemonApi(token : Token) : PokemonApi {
+                    return new PokemonApi(this.endpoint, token);
                 }
 
-	getUserApi() : UserApi {
-                    return new UserApi(this.endpoint);
+	getUserApi(token : Token) : UserApi {
+                    return new UserApi(this.endpoint, token);
                 }
 
 } 

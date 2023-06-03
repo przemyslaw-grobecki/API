@@ -1,3 +1,4 @@
+import { Token } from '../PokeClient';
 // To parse this data:
 //
 //   import { Convert, Move } from "./file";

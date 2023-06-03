@@ -1,3 +1,4 @@
+import { Token } from '../PokeClient';
 import UserApi from '../apis/UserApi';
 import { LEAGUE_ROUTE } from '../routes/LeagueRoute';
 
@@ -17,8 +18,8 @@ export class League {
 /**
 * Child apis
 */
-	getUserApi = (endpoint : string) => {
-		return new UserApi(endpoint+LEAGUE_ROUTE+this.id);
+	getUserApi = (endpoint : string, token: Token) => {
+		return new UserApi(endpoint+LEAGUE_ROUTE+this.id, token);
 	}
 
     /**

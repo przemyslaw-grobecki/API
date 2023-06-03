@@ -1,10 +1,16 @@
 import axios, {isCancel, AxiosError, AxiosRequestConfig} from 'axios';
+import { Token } from './generated/PokeClient';
 
 export default abstract class BaseApi<T> {
     priorPath: string;
-    
-    public constructor(priorPath: string = ""){
+
+    public constructor(priorPath: string = "", token : Token){
         this.priorPath = priorPath;
+        this.axiosConfig = {
+            data: {
+                token: token
+            }
+        }
     }
 
     /**
@@ -39,7 +45,7 @@ export default abstract class BaseApi<T> {
      * @param route 
      */
     protected async HttpPost(route: string, data: T) : Promise<void> {
-        await axios.post(route, data);
+        await axios.post(route, data, this.axiosConfig);
     }
 
     /**
@@ -47,7 +53,7 @@ export default abstract class BaseApi<T> {
      * @param route 
      */
     protected async HttpDelete(route: string) : Promise<void> {
-        await axios.delete(route);
+        await axios.delete(route, this.axiosConfig);
     }
 
     /**
@@ -55,6 +61,6 @@ export default abstract class BaseApi<T> {
      * @param route 
      */
     protected async HttpPatch(route: string, patch: T) : Promise<T> {
-        return await axios.patch(route, patch);
+        return await axios.patch(route, patch, this.axiosConfig);
     }
 }
