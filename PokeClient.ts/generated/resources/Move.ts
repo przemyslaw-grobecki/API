@@ -1,4 +1,4 @@
-import { Token } from '../PokeClient';
+import { Token } from '../../IUserAuthentication';
 // To parse this data:
 //
 //   import { Convert, Move } from "./file";

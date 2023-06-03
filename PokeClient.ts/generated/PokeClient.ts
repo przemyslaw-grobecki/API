@@ -1,11 +1,12 @@
+
 import IPokeClient from "./IPokeClient";
+import axios from "axios";
+import { Token } from "../IUserAuthentication";
 import LeagueApi from "../generated/apis/LeagueApi";
 import MoveApi from "../generated/apis/MoveApi";
 import PokemonApi from "../generated/apis/PokemonApi";
 import UserApi from "../generated/apis/UserApi";
 
-export type Token = string | undefined;
-            
 export default class PokeClient implements IPokeClient 
 {
     public endpoint: string;
@@ -13,12 +14,20 @@ export default class PokeClient implements IPokeClient
         this.endpoint = "http://" + host + ":" + port;
     }
 
-    public Login(): Token {
-        throw new Error("Method not implemented."); //TODO: OAUTH
+    public async Login(username : string, password : string): Promise<Token> {
+        return await axios.post(this.endpoint + "/login", {
+            username: username,
+            password: password
+        });
     }
     
-    public Register(): Token {
-        throw new Error("Method not implemented."); //TODO: OAUTH
+    public async Register(email : string, password : string, firstName : string, lastName: string): Promise<Token> {
+        return await axios.post(this.endpoint + "/register", {
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName
+        });
     }
 
 	getLeagueApi(token : Token) : LeagueApi {

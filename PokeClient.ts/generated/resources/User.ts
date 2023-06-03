@@ -1,4 +1,4 @@
-import { Token } from '../PokeClient';
+import { Token } from '../../IUserAuthentication';
 import LeagueApi from '../apis/LeagueApi';
 import { USER_ROUTE } from '../routes/UserRoute';
 

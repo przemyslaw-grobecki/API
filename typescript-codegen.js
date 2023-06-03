@@ -147,7 +147,7 @@ class TypescriptCodegenHelper {
         }
         this.resources.forEach((resource) => {
             console.log(resource.name);
-            fs.writeFileSync(`${generationPath}/${resource.name}.ts`, "import { Token } from '../PokeClient';\n");
+            fs.writeFileSync(`${generationPath}/${resource.name}.ts`, "import { Token } from '../../IUserAuthentication';\n");
             //If children apis needed, add imports
             resource.jsonContent?.children?.forEach((child) => {
                 fs.appendFileSync(
@@ -324,7 +324,7 @@ class TypescriptCodegenHelper {
         fs.writeFileSync(
             `${generationPath}/IPokeClient.ts`,
             `
-import IUserAuthentication from "./IUserAuthentication";
+import IUserAuthentication, { Token } from "../IUserAuthentication";
 `
         );
 
@@ -341,13 +341,9 @@ import IUserAuthentication from "./IUserAuthentication";
         fs.appendFileSync(
             `${generationPath}/IPokeClient.ts`,
             `
-import { Token } from "./PokeClient";
 
 export default interface IPokeClient extends IUserAuthentication 
-{
-    Login() : Token;
-    Register(): Token;
-`
+{`
         );
 
         this.resources.forEach((resource) => {
@@ -365,15 +361,18 @@ export default interface IPokeClient extends IUserAuthentication
 
         fs.appendFileSync(
             `${generationPath}/IPokeClient.ts`,
-            `
-} 
+            `} 
 `
         );
     };
     GenerateClient = async (generationPath) => {
         fs.writeFileSync(
             `${generationPath}/PokeClient.ts`,
-            `import IPokeClient from "./IPokeClient";${EOL}`
+            `
+import IPokeClient from "./IPokeClient";
+import axios from "axios";
+import { Token } from "../IUserAuthentication";
+`
         );
 
         this.resources.forEach((resource) => {
@@ -389,8 +388,6 @@ export default interface IPokeClient extends IUserAuthentication
         fs.appendFileSync(
             `${generationPath}/PokeClient.ts`,
             `
-export type Token = string | undefined;
-            
 export default class PokeClient implements IPokeClient 
 {
     public endpoint: string;
@@ -398,12 +395,20 @@ export default class PokeClient implements IPokeClient
         this.endpoint = "http://" + host + ":" + port;
     }
 
-    public Login(): Token {
-        throw new Error("Method not implemented."); //TODO: OAUTH
+    public async Login(username : string, password : string): Promise<Token> {
+        return await axios.post(this.endpoint + "/login", {
+            username: username,
+            password: password
+        });
     }
     
-    public Register(): Token {
-        throw new Error("Method not implemented."); //TODO: OAUTH
+    public async Register(email : string, password : string, firstName : string, lastName: string): Promise<Token> {
+        return await axios.post(this.endpoint + "/register", {
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName
+        });
     }
 `
         );

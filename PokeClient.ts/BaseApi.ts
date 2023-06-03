@@ -1,5 +1,6 @@
 import axios, {isCancel, AxiosError, AxiosRequestConfig} from 'axios';
-import { Token } from './generated/PokeClient';
+import { Token } from './IUserAuthentication';
+
 
 export default abstract class BaseApi<T> {
     priorPath: string;
