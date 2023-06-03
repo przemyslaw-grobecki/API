@@ -6,7 +6,10 @@ import UserApi from "../generated/apis/UserApi";
 
 export default class PokeClient implements IPokeClient 
 {
-    public constructor(){}
+    public endpoint: string;
+    public constructor(host : string, port : string){
+        this.endpoint = "http://" + host + ":" + port;
+    }
 
     public Login(): void {
         throw new Error("Method not implemented."); //TODO: OAUTH
@@ -17,15 +20,15 @@ export default class PokeClient implements IPokeClient
     }
 
 	getLeagueApi() : LeagueApi {
-                    return new LeagueApi();
+                    return new LeagueApi(this.endpoint);
                 }
 
 	getPokemonApi() : PokemonApi {
-                    return new PokemonApi();
+                    return new PokemonApi(this.endpoint);
                 }
 
 	getUserApi() : UserApi {
-                    return new UserApi();
+                    return new UserApi(this.endpoint);
                 }
 
 } 

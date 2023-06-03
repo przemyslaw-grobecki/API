@@ -17,8 +17,8 @@ export class Pokemon {
 /**
 * Child apis
 */
-	getMoveApi = () => {
-		return new MoveApi(POKEMON_ROUTE+this.id);
+	getMoveApi = (endpoint : string) => {
+		return new MoveApi(endpoint+POKEMON_ROUTE+this.id);
 	}
 
     /**

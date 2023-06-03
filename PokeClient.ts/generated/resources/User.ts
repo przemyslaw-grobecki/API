@@ -17,8 +17,8 @@ export class User {
 /**
 * Child apis
 */
-	getLeagueApi = () => {
-		return new LeagueApi(USER_ROUTE+this.id);
+	getLeagueApi = (endpoint : string) => {
+		return new LeagueApi(endpoint+USER_ROUTE+this.id);
 	}
 
     /**
