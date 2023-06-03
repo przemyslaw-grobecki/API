@@ -176,10 +176,10 @@ class TypescriptCodegenHelper {
                         line +=
                             `\tget${this.capitalizeFirstLetter(
                                 child
-                            )}Api = () => {${EOL}` +
+                            )}Api = (endpoint : string) => {${EOL}` +
                             `\t\treturn new ${this.capitalizeFirstLetter(
                                 child
-                            )}Api(${resource.name.toUpperCase()}_ROUTE+this.id);${EOL}` +
+                            )}Api(endpoint+${resource.name.toUpperCase()}_ROUTE+this.id);${EOL}` +
                             `\t}${EOL}`;
                     });
                 }
@@ -389,7 +389,10 @@ export default interface IPokeClient extends IUserAuthentication
             `
 export default class PokeClient implements IPokeClient 
 {
-    public constructor(){}
+    public endpoint: string;
+    public constructor(host : string, port : string){
+        this.endpoint = "http://" + host + ":" + port;
+    }
 
     public Login(): void {
         throw new Error("Method not implemented."); //TODO: OAUTH
@@ -410,7 +413,7 @@ export default class PokeClient implements IPokeClient
                     )}Api() : ${this.capitalizeFirstLetter(resource.name)}Api {
                     return new ${this.capitalizeFirstLetter(
                         resource.name
-                    )}Api();
+                    )}Api(this.endpoint);
                 }
 `
                 );
