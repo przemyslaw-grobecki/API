@@ -1,3 +1,4 @@
+import { Token } from '../PokeClient';
 import MoveApi from '../apis/MoveApi';
 import { POKEMON_ROUTE } from '../routes/PokemonRoute';
 
@@ -17,8 +18,8 @@ export class Pokemon {
 /**
 * Child apis
 */
-	getMoveApi = (endpoint : string) => {
-		return new MoveApi(endpoint+POKEMON_ROUTE+this.id);
+	getMoveApi = (endpoint : string, token: Token) => {
+		return new MoveApi(endpoint+POKEMON_ROUTE+this.id, token);
 	}
 
     /**

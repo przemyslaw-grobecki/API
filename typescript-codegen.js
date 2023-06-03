@@ -147,7 +147,7 @@ class TypescriptCodegenHelper {
         }
         this.resources.forEach((resource) => {
             console.log(resource.name);
-            fs.writeFileSync(`${generationPath}/${resource.name}.ts`, "");
+            fs.writeFileSync(`${generationPath}/${resource.name}.ts`, "import { Token } from '../PokeClient';\n");
             //If children apis needed, add imports
             resource.jsonContent?.children?.forEach((child) => {
                 fs.appendFileSync(
@@ -176,10 +176,10 @@ class TypescriptCodegenHelper {
                         line +=
                             `\tget${this.capitalizeFirstLetter(
                                 child
-                            )}Api = (endpoint : string) => {${EOL}` +
+                            )}Api = (endpoint : string, token: Token) => {${EOL}` +
                             `\t\treturn new ${this.capitalizeFirstLetter(
                                 child
-                            )}Api(endpoint+${resource.name.toUpperCase()}_ROUTE+this.id);${EOL}` +
+                            )}Api(endpoint+${resource.name.toUpperCase()}_ROUTE+this.id, token);${EOL}` +
                             `\t}${EOL}`;
                     });
                 }
@@ -341,10 +341,12 @@ import IUserAuthentication from "./IUserAuthentication";
         fs.appendFileSync(
             `${generationPath}/IPokeClient.ts`,
             `
+import { Token } from "./PokeClient";
+
 export default interface IPokeClient extends IUserAuthentication 
 {
-    Login() : void;
-    Register(): void;
+    Login() : Token;
+    Register(): Token;
 `
         );
 
@@ -355,7 +357,7 @@ export default interface IPokeClient extends IUserAuthentication
                     `
 \tget${this.capitalizeFirstLetter(
                         resource.name
-                    )}Api() : ${this.capitalizeFirstLetter(resource.name)}Api;
+                    )}Api(token : Token) : ${this.capitalizeFirstLetter(resource.name)}Api;
 `
                 );
             }
@@ -387,6 +389,8 @@ export default interface IPokeClient extends IUserAuthentication
         fs.appendFileSync(
             `${generationPath}/PokeClient.ts`,
             `
+export type Token = string | undefined;
+            
 export default class PokeClient implements IPokeClient 
 {
     public endpoint: string;
@@ -394,11 +398,11 @@ export default class PokeClient implements IPokeClient
         this.endpoint = "http://" + host + ":" + port;
     }
 
-    public Login(): void {
+    public Login(): Token {
         throw new Error("Method not implemented."); //TODO: OAUTH
     }
     
-    public Register(): void {
+    public Register(): Token {
         throw new Error("Method not implemented."); //TODO: OAUTH
     }
 `
@@ -410,10 +414,10 @@ export default class PokeClient implements IPokeClient
                     `
 \tget${this.capitalizeFirstLetter(
                         resource.name
-                    )}Api() : ${this.capitalizeFirstLetter(resource.name)}Api {
+                    )}Api(token : Token) : ${this.capitalizeFirstLetter(resource.name)}Api {
                     return new ${this.capitalizeFirstLetter(
                         resource.name
-                    )}Api(this.endpoint);
+                    )}Api(this.endpoint, token);
                 }
 `
                 );
