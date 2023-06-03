@@ -126,13 +126,54 @@ class JavaCodegenHelper {
         }
         this.resources.forEach((resource) => {
             console.log(resource.name);
-            fs.writeFileSync(`${generationPath}/${resource.name}.java`, "");
-            resource.javaClassContent.lines.forEach((line) => {
+            fs.writeFileSync(`${generationPath}/${resource.name}Converter.java`, "");
+            let i = 0;
+            let lines = resource.javaClassContent.lines;
+            for (; i < lines.length; i++){
+                if(lines[i].includes("package io.quicktype;")){
+                    lines[i] = "package PokeClient.generated.resources;" + EOL;
+                }
+                if(lines[i].includes("Converter")){
+                    lines[i] = lines[i].replace("Converter", `${this.capitalizeFirstLetter(resource.name)}Converter`)
+                }
+                fs.appendFileSync(
+                    `${generationPath}/${resource.name}Converter.java`,
+                    `${lines[i]}${EOL}`
+                );
+                if(lines[i].includes(`// ${this.capitalizeFirstLetter(resource.name)}.java`)){
+                    i++;
+                    break;
+                }
+            }
+            fs.writeFileSync(`${generationPath}/${resource.name}.java`, ""); 
+            Object.values(resource.jsonContent.properties).forEach(objVals => {               
+                if(objVals.type == "array"){
+                    if(objVals.items.$ref){
+                        fs.appendFileSync(
+                            `${generationPath}/${resource.name}.java`,
+                            `import PokeClient.java.generated.primitives.${objVals.items.$ref.split("/").pop().split(".")[0]};${EOL}`)
+                    }
+                }
+                
+                if(objVals.$ref){
+                    fs.appendFileSync(
+                        `${generationPath}/${resource.name}.java`,
+                        `import PokeClient.java.generated.primitives.${objVals.$ref.split("/").pop().split(".")[0]};${EOL}`)
+                }
+            });
+            for (; i < lines.length; i++){
+                if(lines[i].includes("package io.quicktype;")){
+                    lines[i] = EOL;
+                }
                 fs.appendFileSync(
                     `${generationPath}/${resource.name}.java`,
-                    `${line}${EOL}`
+                    `${lines[i]}${EOL}`
                 );
-            });
+                if(lines[i].includes(`//`)){
+                    i++;
+                    break;
+                }
+            }
         })
     }
 
@@ -143,13 +184,39 @@ class JavaCodegenHelper {
         }
         this.primitives.forEach((primitive) => {
             console.log(primitive.name);
+            fs.writeFileSync(`${generationPath}/${primitive.name}Converter.java`, "");
+            let i = 0;
+            let lines = primitive.javaClassContent.lines;
+            for (; i < lines.length; i++){
+                if(lines[i].includes("package io.quicktype;")){
+                    lines[i] = "package PokeClient.generated.primitives;" + EOL;
+                }
+                if(lines[i].includes("Converter")){
+                    lines[i] = lines[i].replace("Converter", `${this.capitalizeFirstLetter(primitive.name)}Converter`)
+                }
+                fs.appendFileSync(
+                    `${generationPath}/${primitive.name}Converter.java`,
+                    `${lines[i]}${EOL}`
+                );
+                if(lines[i].includes(`// ${this.capitalizeFirstLetter(primitive.name)}.java`)){
+                    i++;
+                    break;
+                }
+            }
             fs.writeFileSync(`${generationPath}/${primitive.name}.java`, "");
-            primitive.javaClassContent.lines.forEach((line) => {
+            for (; i < lines.length; i++){
+                if(lines[i].includes("package io.quicktype;")){
+                    lines[i] = EOL;
+                }
                 fs.appendFileSync(
                     `${generationPath}/${primitive.name}.java`,
-                    `${line}${EOL}`
+                    `${lines[i]}${EOL}`
                 );
-            });
+                if(lines[i].includes(`//`)){
+                    i++;
+                    break;
+                }
+            }
         });
     };
 
