@@ -1,5 +1,5 @@
 
-import IUserAuthentication, { Token } from "../IUserAuthentication";
+import IUserAuthentication, { Token, Role } from "../IUserAuthentication";
 import LeagueApi from "../generated/apis/LeagueApi";
 import MoveApi from "../generated/apis/MoveApi";
 import PokemonApi from "../generated/apis/PokemonApi";

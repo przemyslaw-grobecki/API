@@ -147,7 +147,7 @@ class TypescriptCodegenHelper {
         }
         this.resources.forEach((resource) => {
             console.log(resource.name);
-            fs.writeFileSync(`${generationPath}/${resource.name}.ts`, "import { Token } from '../../IUserAuthentication';\n");
+            fs.writeFileSync(`${generationPath}/${resource.name}.ts`, "import { Token, Role } from '../../IUserAuthentication';\n");
             //If children apis needed, add imports
             resource.jsonContent?.children?.forEach((child) => {
                 fs.appendFileSync(
@@ -324,7 +324,7 @@ class TypescriptCodegenHelper {
         fs.writeFileSync(
             `${generationPath}/IPokeClient.ts`,
             `
-import IUserAuthentication, { Token } from "../IUserAuthentication";
+import IUserAuthentication, { Token, Role } from "../IUserAuthentication";
 `
         );
 
@@ -371,7 +371,7 @@ export default interface IPokeClient extends IUserAuthentication
             `
 import IPokeClient from "./IPokeClient";
 import axios from "axios";
-import { Token } from "../IUserAuthentication";
+import { Token, Role } from "../IUserAuthentication";
 `
         );
 
@@ -402,12 +402,13 @@ export default class PokeClient implements IPokeClient
         });
     }
     
-    public async Register(email : string, password : string, firstName : string, lastName: string): Promise<Token> {
+    public async Register(email : string, password : string, firstName : string, lastName: string, role : Role): Promise<Token> {
         return await axios.post(this.endpoint + "/register", {
             email: email,
             password: password,
             firstName: firstName,
-            lastName: lastName
+            lastName: lastName,
+            role: role
         });
     }
 `
