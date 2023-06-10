@@ -1,4 +1,4 @@
-import { Token } from '../../IUserAuthentication';
+import { Token, Role } from '../../IUserAuthentication';
 // To parse this data:
 //
 //   import { Convert, Move } from "./file";

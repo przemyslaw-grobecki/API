@@ -1,7 +1,7 @@
 
 import IPokeClient from "./IPokeClient";
 import axios from "axios";
-import { Token } from "../IUserAuthentication";
+import { Token, Role } from "../IUserAuthentication";
 import LeagueApi from "../generated/apis/LeagueApi";
 import MoveApi from "../generated/apis/MoveApi";
 import PokemonApi from "../generated/apis/PokemonApi";
@@ -21,12 +21,13 @@ export default class PokeClient implements IPokeClient
         });
     }
     
-    public async Register(email : string, password : string, firstName : string, lastName: string): Promise<Token> {
+    public async Register(email : string, password : string, firstName : string, lastName: string, role : Role): Promise<Token> {
         return await axios.post(this.endpoint + "/register", {
             email: email,
             password: password,
             firstName: firstName,
-            lastName: lastName
+            lastName: lastName,
+            role: role
         });
     }
 
