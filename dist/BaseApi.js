@@ -36,8 +36,8 @@ class BaseApi {
      */
     HttpGetAll(route) {
         return __awaiter(this, void 0, void 0, function* () {
-            const resource = yield axios_1.default.get(route, this.axiosConfig);
-            return resource.data;
+            const resourceResponse = yield axios_1.default.get(route, this.axiosConfig);
+            return resourceResponse.data;
         });
     }
     /**
@@ -47,8 +47,8 @@ class BaseApi {
      */
     HttpGet(route) {
         return __awaiter(this, void 0, void 0, function* () {
-            const resource = yield axios_1.default.get(route, this.axiosConfig);
-            return resource.data;
+            const resourceResponse = yield axios_1.default.get(route, this.axiosConfig);
+            return resourceResponse.data;
         });
     }
     /**
@@ -75,7 +75,8 @@ class BaseApi {
      */
     HttpPatch(route, patch) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield axios_1.default.patch(route, patch, this.axiosConfig);
+            const patchedResourceResponse = yield axios_1.default.patch(route, patch, this.axiosConfig);
+            return patchedResourceResponse.data;
         });
     }
 }

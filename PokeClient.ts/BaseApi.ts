@@ -31,8 +31,8 @@ export default abstract class BaseApi<T> {
      * @returns get 
      */
     protected async HttpGetAll(route: string) : Promise<Array<T>> {
-        const resource = await axios.get<Array<T>>(route, this.axiosConfig);
-        return resource.data;
+        const resourceResponse = await axios.get<Array<T>>(route, this.axiosConfig);
+        return resourceResponse.data;
     }
 
     /**
@@ -41,8 +41,8 @@ export default abstract class BaseApi<T> {
      * @returns get 
      */
     protected async HttpGet(route: string) : Promise<T> {
-        const resource = await axios.get<T>(route, this.axiosConfig);
-        return resource.data;
+        const resourceResponse = await axios.get<T>(route, this.axiosConfig);
+        return resourceResponse.data;
     }
 
     /**
@@ -66,6 +66,7 @@ export default abstract class BaseApi<T> {
      * @param route 
      */
     protected async HttpPatch(route: string, patch: T) : Promise<T> {
-        return await axios.patch(route, patch, this.axiosConfig);
+        const patchedResourceResponse = await axios.patch(route, patch, this.axiosConfig);
+        return patchedResourceResponse.data;
     }
 }
