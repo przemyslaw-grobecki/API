@@ -22,7 +22,7 @@ class PokeClient {
     }
     Login(username, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield axios_1.default.post(this.endpoint + "/login", {
+            return yield axios_1.default.post(this.endpoint + "/auth/login", {
                 username: username,
                 password: password
             });
@@ -30,7 +30,7 @@ class PokeClient {
     }
     Register(email, password, firstName, lastName, role) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield axios_1.default.post(this.endpoint + "/register", {
+            return yield axios_1.default.post(this.endpoint + "/auth/register", {
                 email: email,
                 password: password,
                 firstName: firstName,

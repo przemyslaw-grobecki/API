@@ -15,14 +15,14 @@ export default class PokeClient implements IPokeClient
     }
 
     public async Login(username : string, password : string): Promise<Token> {
-        return await axios.post(this.endpoint + "/login", {
+        return await axios.post(this.endpoint + "/auth/login", {
             username: username,
             password: password
         });
     }
     
     public async Register(email : string, password : string, firstName : string, lastName: string, role : Role): Promise<Token> {
-        return await axios.post(this.endpoint + "/register", {
+        return await axios.post(this.endpoint + "/auth/register", {
             email: email,
             password: password,
             firstName: firstName,
