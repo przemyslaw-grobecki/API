@@ -1,4 +1,6 @@
+import MoveApi from "./MoveApi";
 import BaseApi from "../../BaseApi";
+import { Token } from "../../IUserAuthentication";
 import { Pokemon } from "../resources/Pokemon";
 import { POKEMON_ROUTE } from "../routes/PokemonRoute";
 
@@ -23,5 +25,12 @@ export default class PokemonApi extends BaseApi<Pokemon> {
 
 	public Get = async (id: string) : Promise<Pokemon> => {
 		return await this.HttpGet(this.priorPath + POKEMON_ROUTE + "/" + id);
+	}
+
+	/**
+	* Pokemon children APIs
+	*/
+	public getMoveApi = (pokemonId: string, token: Token) => {
+		return new MoveApi(this.priorPath + POKEMON_ROUTE + "/" + pokemonId, token);
 	}
 }

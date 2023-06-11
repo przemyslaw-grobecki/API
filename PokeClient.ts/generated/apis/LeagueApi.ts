@@ -1,4 +1,6 @@
+import UserApi from "./UserApi";
 import BaseApi from "../../BaseApi";
+import { Token } from "../../IUserAuthentication";
 import { League } from "../resources/League";
 import { LEAGUE_ROUTE } from "../routes/LeagueRoute";
 
@@ -23,5 +25,12 @@ export default class LeagueApi extends BaseApi<League> {
 
 	public Get = async (id: string) : Promise<League> => {
 		return await this.HttpGet(this.priorPath + LEAGUE_ROUTE + "/" + id);
+	}
+
+	/**
+	* League children APIs
+	*/
+	public getUserApi = (leagueId: string, token: Token) => {
+		return new UserApi(this.priorPath + LEAGUE_ROUTE + "/" + leagueId, token);
 	}
 }

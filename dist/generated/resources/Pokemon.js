@@ -1,252 +1,199 @@
-import { Token, Role } from '../../IUserAuthentication';
-import MoveApi from '../apis/MoveApi';
-import { POKEMON_ROUTE } from '../routes/PokemonRoute';
-
-// To parse this data:
-//
-//   import { Convert, Pokemon } from "./file";
-//
-//   const pokemon = Convert.toPokemon(json);
-//
-// These functions will throw an error if the JSON doesn't
-// match the expected interface, even if the JSON is valid.
-
-/**
- * A pokemon.
- */
-export interface Pokemon {
-    /**
-     * Passive effects that a certain pokemon has by it's birthright
-     */
-    abilities: Ability[];
-    attack:    number;
-    defence:   number;
-    /**
-     * The actual pokemon evolution
-     */
-    evolution:  number;
-    friendship: number;
-    gender:     Gender;
-    /**
-     * The generation in which the pokemon was introduced
-     */
-    generation: number;
-    hp:         number;
-    /**
-     * The unique identifier for a pokemon
-     */
-    id: number;
-    /**
-     * As the user will complete activities pokemon level will rise and increase pokemon stats
-     */
-    level?: number;
-    /**
-     * Name of the pokemon
-     */
-    name?:          string;
-    specialAttack:  number;
-    specialDefence: number;
-    speed:          number;
-    types:          Type[];
-    price:          any;
-    [property: string]: any;
-}
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PokemonConverter = exports.Type = exports.Gender = exports.Ability = void 0;
 /**
  * A pokemon passive ability that is it's birthright.
  */
-export enum Ability {
-    AirLock = "air_lock",
-    ArenaTrap = "arena_trap",
-    BattleArmor = "battle_armor",
-    Blaze = "blaze",
-    Chlorophyl = "chlorophyl",
-    ClearBody = "clear_body",
-    CloudNine = "cloud_nine",
-    ColorChange = "color_change",
-    CompoundEyes = "compound_eyes",
-    CuteCharm = "cute_charm",
-    Damp = "damp",
-    Drizzle = "drizzle",
-    Drought = "drought",
-    EarlyBird = "early_bird",
-    EffectSpore = "effect_spore",
-    FlameBody = "flame_body",
-    FlashFire = "flash_fire",
-    Forecast = "forecast",
-    Guts = "guts",
-    HugePower = "huge_power",
-    Hustle = "hustle",
-    HyperCutter = "hyper_cutter",
-    Illuminate = "illuminate",
-    Immunity = "immunity",
-    InnerFocus = "inner_focus",
-    Insomnia = "insomnia",
-    Intimidate = "intimidate",
-    KeenEye = "keen_eye",
-    Levitate = "levitate",
-    LightningRod = "lightning_rod",
-    Limber = "limber",
-    LiquidOoze = "liquid_ooze",
-    MagmaArmor = "magma_armor",
-    MagnetPull = "magnet_pull",
-    MarvelScale = "marvel_scale",
-    Minus = "minus",
-    NaturalCure = "natural_cure",
-    Oblivious = "oblivious",
-    Overgrow = "overgrow",
-    OwnTempo = "own_tempo",
-    Pickup = "pickup",
-    Plus = "plus",
-    PoisonPoint = "poison_point",
-    Pressure = "pressure",
-    PurePower = "pure_power",
-    RainDish = "rain_dish",
-    RockHead = "rock_head",
-    RoughSkin = "rough_skin",
-    RunAway = "run_away",
-    SandStream = "sand_stream",
-    SandVeil = "sand_veil",
-    SereneGrace = "serene_grace",
-    ShadowTag = "shadow_tag",
-    ShedSkin = "shed_skin",
-    ShellArmor = "shell_armor",
-    ShieldDust = "shield_dust",
-    Soundproof = "soundproof",
-    SpeedBoost = "speed_boost",
-    Static = "static",
-    Stench = "stench",
-    StickyHold = "sticky_hold",
-    Sturdy = "sturdy",
-    SuctionCups = "suction_cups",
-    Swarm = "swarm",
-    SwiftSwim = "swift_swim",
-    Synchronize = "synchronize",
-    ThickFat = "thick_fat",
-    Torrent = "torrent",
-    Trace = "trace",
-    Truant = "truant",
-    VitalSpirit = "vital_spirit",
-    VoltAbsorb = "volt_absorb",
-    WaterAbsorb = "water_absorb",
-    WaterVeil = "water_veil",
-    WhiteSmoke = "white_smoke",
-    WonderGuard = "wonder_guard",
-}
-
+var Ability;
+(function (Ability) {
+    Ability["AirLock"] = "air_lock";
+    Ability["ArenaTrap"] = "arena_trap";
+    Ability["BattleArmor"] = "battle_armor";
+    Ability["Blaze"] = "blaze";
+    Ability["Chlorophyl"] = "chlorophyl";
+    Ability["ClearBody"] = "clear_body";
+    Ability["CloudNine"] = "cloud_nine";
+    Ability["ColorChange"] = "color_change";
+    Ability["CompoundEyes"] = "compound_eyes";
+    Ability["CuteCharm"] = "cute_charm";
+    Ability["Damp"] = "damp";
+    Ability["Drizzle"] = "drizzle";
+    Ability["Drought"] = "drought";
+    Ability["EarlyBird"] = "early_bird";
+    Ability["EffectSpore"] = "effect_spore";
+    Ability["FlameBody"] = "flame_body";
+    Ability["FlashFire"] = "flash_fire";
+    Ability["Forecast"] = "forecast";
+    Ability["Guts"] = "guts";
+    Ability["HugePower"] = "huge_power";
+    Ability["Hustle"] = "hustle";
+    Ability["HyperCutter"] = "hyper_cutter";
+    Ability["Illuminate"] = "illuminate";
+    Ability["Immunity"] = "immunity";
+    Ability["InnerFocus"] = "inner_focus";
+    Ability["Insomnia"] = "insomnia";
+    Ability["Intimidate"] = "intimidate";
+    Ability["KeenEye"] = "keen_eye";
+    Ability["Levitate"] = "levitate";
+    Ability["LightningRod"] = "lightning_rod";
+    Ability["Limber"] = "limber";
+    Ability["LiquidOoze"] = "liquid_ooze";
+    Ability["MagmaArmor"] = "magma_armor";
+    Ability["MagnetPull"] = "magnet_pull";
+    Ability["MarvelScale"] = "marvel_scale";
+    Ability["Minus"] = "minus";
+    Ability["NaturalCure"] = "natural_cure";
+    Ability["Oblivious"] = "oblivious";
+    Ability["Overgrow"] = "overgrow";
+    Ability["OwnTempo"] = "own_tempo";
+    Ability["Pickup"] = "pickup";
+    Ability["Plus"] = "plus";
+    Ability["PoisonPoint"] = "poison_point";
+    Ability["Pressure"] = "pressure";
+    Ability["PurePower"] = "pure_power";
+    Ability["RainDish"] = "rain_dish";
+    Ability["RockHead"] = "rock_head";
+    Ability["RoughSkin"] = "rough_skin";
+    Ability["RunAway"] = "run_away";
+    Ability["SandStream"] = "sand_stream";
+    Ability["SandVeil"] = "sand_veil";
+    Ability["SereneGrace"] = "serene_grace";
+    Ability["ShadowTag"] = "shadow_tag";
+    Ability["ShedSkin"] = "shed_skin";
+    Ability["ShellArmor"] = "shell_armor";
+    Ability["ShieldDust"] = "shield_dust";
+    Ability["Soundproof"] = "soundproof";
+    Ability["SpeedBoost"] = "speed_boost";
+    Ability["Static"] = "static";
+    Ability["Stench"] = "stench";
+    Ability["StickyHold"] = "sticky_hold";
+    Ability["Sturdy"] = "sturdy";
+    Ability["SuctionCups"] = "suction_cups";
+    Ability["Swarm"] = "swarm";
+    Ability["SwiftSwim"] = "swift_swim";
+    Ability["Synchronize"] = "synchronize";
+    Ability["ThickFat"] = "thick_fat";
+    Ability["Torrent"] = "torrent";
+    Ability["Trace"] = "trace";
+    Ability["Truant"] = "truant";
+    Ability["VitalSpirit"] = "vital_spirit";
+    Ability["VoltAbsorb"] = "volt_absorb";
+    Ability["WaterAbsorb"] = "water_absorb";
+    Ability["WaterVeil"] = "water_veil";
+    Ability["WhiteSmoke"] = "white_smoke";
+    Ability["WonderGuard"] = "wonder_guard";
+})(Ability || (exports.Ability = Ability = {}));
 /**
  * A pokemon's gender.
  */
-export enum Gender {
-    Empty = "♀",
-    Gender = "♂",
-}
-
+var Gender;
+(function (Gender) {
+    Gender["Empty"] = "\u2640";
+    Gender["Gender"] = "\u2642";
+})(Gender || (Gender = {}));
 /**
  * A pokemon's type.
  */
-export enum Type {
-    Bug = "bug",
-    Dark = "dark",
-    Dragon = "dragon",
-    Electric = "electric",
-    Fairy = "fairy",
-    Fighting = "fighting",
-    Fire = "fire",
-    Flying = "flying",
-    Ghost = "ghost",
-    Grass = "grass",
-    Ground = "ground",
-    Ice = "ice",
-    Normal = "normal",
-    Poison = "poison",
-    Psychic = "psychic",
-    Rock = "rock",
-    Steel = "steel",
-    Water = "water",
-}
-
+var Type;
+(function (Type) {
+    Type["Bug"] = "bug";
+    Type["Dark"] = "dark";
+    Type["Dragon"] = "dragon";
+    Type["Electric"] = "electric";
+    Type["Fairy"] = "fairy";
+    Type["Fighting"] = "fighting";
+    Type["Fire"] = "fire";
+    Type["Flying"] = "flying";
+    Type["Ghost"] = "ghost";
+    Type["Grass"] = "grass";
+    Type["Ground"] = "ground";
+    Type["Ice"] = "ice";
+    Type["Normal"] = "normal";
+    Type["Poison"] = "poison";
+    Type["Psychic"] = "psychic";
+    Type["Rock"] = "rock";
+    Type["Steel"] = "steel";
+    Type["Water"] = "water";
+})(Type || (exports.Type = Type = {}));
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
-export class PokemonConverter {
-    public static toPokemon(json: string): Pokemon {
+class PokemonConverter {
+    static toPokemon(json) {
         return cast(JSON.parse(json), r("Pokemon"));
     }
-
-    public static pokemonToJson(value: Pokemon): string {
+    static pokemonToJson(value) {
         return JSON.stringify(uncast(value, r("Pokemon")), null, 2);
     }
 }
-
-function invalidValue(typ: any, val: any, key: any, parent: any = ''): never {
+exports.PokemonConverter = PokemonConverter;
+function invalidValue(typ, val, key, parent = '') {
     const prettyTyp = prettyTypeName(typ);
     const parentText = parent ? ` on ${parent}` : '';
     const keyText = key ? ` for key "${key}"` : '';
     throw Error(`Invalid value${keyText}${parentText}. Expected ${prettyTyp} but got ${JSON.stringify(val)}`);
 }
-
-function prettyTypeName(typ: any): string {
+function prettyTypeName(typ) {
     if (Array.isArray(typ)) {
         if (typ.length === 2 && typ[0] === undefined) {
             return `an optional ${prettyTypeName(typ[1])}`;
-        } else {
+        }
+        else {
             return `one of [${typ.map(a => { return prettyTypeName(a); }).join(", ")}]`;
         }
-    } else if (typeof typ === "object" && typ.literal !== undefined) {
+    }
+    else if (typeof typ === "object" && typ.literal !== undefined) {
         return typ.literal;
-    } else {
+    }
+    else {
         return typeof typ;
     }
 }
-
-function jsonToJSProps(typ: any): any {
+function jsonToJSProps(typ) {
     if (typ.jsonToJS === undefined) {
-        const map: any = {};
-        typ.props.forEach((p: any) => map[p.json] = { key: p.js, typ: p.typ });
+        const map = {};
+        typ.props.forEach((p) => map[p.json] = { key: p.js, typ: p.typ });
         typ.jsonToJS = map;
     }
     return typ.jsonToJS;
 }
-
-function jsToJSONProps(typ: any): any {
+function jsToJSONProps(typ) {
     if (typ.jsToJSON === undefined) {
-        const map: any = {};
-        typ.props.forEach((p: any) => map[p.js] = { key: p.json, typ: p.typ });
+        const map = {};
+        typ.props.forEach((p) => map[p.js] = { key: p.json, typ: p.typ });
         typ.jsToJSON = map;
     }
     return typ.jsToJSON;
 }
-
-function transform(val: any, typ: any, getProps: any, key: any = '', parent: any = ''): any {
-    function transformPrimitive(typ: string, val: any): any {
-        if (typeof typ === typeof val) return val;
+function transform(val, typ, getProps, key = '', parent = '') {
+    function transformPrimitive(typ, val) {
+        if (typeof typ === typeof val)
+            return val;
         return invalidValue(typ, val, key, parent);
     }
-
-    function transformUnion(typs: any[], val: any): any {
+    function transformUnion(typs, val) {
         // val must validate against one typ in typs
         const l = typs.length;
         for (let i = 0; i < l; i++) {
             const typ = typs[i];
             try {
                 return transform(val, typ, getProps);
-            } catch (_) {}
+            }
+            catch (_) { }
         }
         return invalidValue(typs, val, key, parent);
     }
-
-    function transformEnum(cases: string[], val: any): any {
-        if (cases.indexOf(val) !== -1) return val;
+    function transformEnum(cases, val) {
+        if (cases.indexOf(val) !== -1)
+            return val;
         return invalidValue(cases.map(a => { return l(a); }), val, key, parent);
     }
-
-    function transformArray(typ: any, val: any): any {
+    function transformArray(typ, val) {
         // val must be an array with no invalid elements
-        if (!Array.isArray(val)) return invalidValue(l("array"), val, key, parent);
+        if (!Array.isArray(val))
+            return invalidValue(l("array"), val, key, parent);
         return val.map(el => transform(el, typ, getProps));
     }
-
-    function transformDate(val: any): any {
+    function transformDate(val) {
         if (val === null) {
             return null;
         }
@@ -256,12 +203,11 @@ function transform(val: any, typ: any, getProps: any, key: any = '', parent: any
         }
         return d;
     }
-
-    function transformObject(props: { [k: string]: any }, additional: any, val: any): any {
+    function transformObject(props, additional, val) {
         if (val === null || typeof val !== "object" || Array.isArray(val)) {
             return invalidValue(l(ref || "object"), val, key, parent);
         }
-        const result: any = {};
+        const result = {};
         Object.getOwnPropertyNames(props).forEach(key => {
             const prop = props[key];
             const v = Object.prototype.hasOwnProperty.call(val, key) ? val[key] : undefined;
@@ -274,63 +220,58 @@ function transform(val: any, typ: any, getProps: any, key: any = '', parent: any
         });
         return result;
     }
-
-    if (typ === "any") return val;
+    if (typ === "any")
+        return val;
     if (typ === null) {
-        if (val === null) return val;
+        if (val === null)
+            return val;
         return invalidValue(typ, val, key, parent);
     }
-    if (typ === false) return invalidValue(typ, val, key, parent);
-    let ref: any = undefined;
+    if (typ === false)
+        return invalidValue(typ, val, key, parent);
+    let ref = undefined;
     while (typeof typ === "object" && typ.ref !== undefined) {
         ref = typ.ref;
         typ = typeMap[typ.ref];
     }
-    if (Array.isArray(typ)) return transformEnum(typ, val);
+    if (Array.isArray(typ))
+        return transformEnum(typ, val);
     if (typeof typ === "object") {
         return typ.hasOwnProperty("unionMembers") ? transformUnion(typ.unionMembers, val)
-            : typ.hasOwnProperty("arrayItems")    ? transformArray(typ.arrayItems, val)
-            : typ.hasOwnProperty("props")         ? transformObject(getProps(typ), typ.additional, val)
-            : invalidValue(typ, val, key, parent);
+            : typ.hasOwnProperty("arrayItems") ? transformArray(typ.arrayItems, val)
+                : typ.hasOwnProperty("props") ? transformObject(getProps(typ), typ.additional, val)
+                    : invalidValue(typ, val, key, parent);
     }
     // Numbers can be parsed by Date but shouldn't be.
-    if (typ === Date && typeof val !== "number") return transformDate(val);
+    if (typ === Date && typeof val !== "number")
+        return transformDate(val);
     return transformPrimitive(typ, val);
 }
-
-function cast<T>(val: any, typ: any): T {
+function cast(val, typ) {
     return transform(val, typ, jsonToJSProps);
 }
-
-function uncast<T>(val: T, typ: any): any {
+function uncast(val, typ) {
     return transform(val, typ, jsToJSONProps);
 }
-
-function l(typ: any) {
+function l(typ) {
     return { literal: typ };
 }
-
-function a(typ: any) {
+function a(typ) {
     return { arrayItems: typ };
 }
-
-function u(...typs: any[]) {
+function u(...typs) {
     return { unionMembers: typs };
 }
-
-function o(props: any[], additional: any) {
+function o(props, additional) {
     return { props, additional };
 }
-
-function m(additional: any) {
+function m(additional) {
     return { props: [], additional };
 }
-
-function r(name: string) {
+function r(name) {
     return { ref: name };
 }
-
-const typeMap: any = {
+const typeMap = {
     "Pokemon": o([
         { json: "abilities", js: "abilities", typ: a(r("Ability")) },
         { json: "attack", js: "attack", typ: 0 },
@@ -452,4 +393,4 @@ const typeMap: any = {
         "water",
     ],
 };
-
+//# sourceMappingURL=Pokemon.js.map

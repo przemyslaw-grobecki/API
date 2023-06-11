@@ -1,4 +1,5 @@
 import BaseApi from "../../BaseApi";
+import { Token } from "../../IUserAuthentication";
 import { Move } from "../resources/Move";
 import { MOVE_ROUTE } from "../routes/MoveRoute";
 

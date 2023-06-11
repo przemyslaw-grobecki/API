@@ -164,25 +164,6 @@ class TypescriptCodegenHelper {
             });
 
             resource.typescriptInterfaceContent.lines.forEach((line) => {
-                if (line.includes("export interface " + resource.name)) {
-                    line =
-                        `export class ${resource.name} {` +
-                        EOL +
-                        `/**
-* Child apis
-*/` +
-                        EOL;
-                    resource.jsonContent?.children?.forEach((child) => {
-                        line +=
-                            `\tget${this.capitalizeFirstLetter(
-                                child
-                            )}Api = (endpoint : string, token: Token) => {${EOL}` +
-                            `\t\treturn new ${this.capitalizeFirstLetter(
-                                child
-                            )}Api(endpoint+${resource.name.toUpperCase()}_ROUTE+this.id, token);${EOL}` +
-                            `\t}${EOL}`;
-                    });
-                }
                 if (line.includes("export class Convert")) {
                     line = `export class ${resource.name}Converter {`;
                 }
@@ -233,9 +214,16 @@ class TypescriptCodegenHelper {
         }
         this.resources.forEach((resource) => {
             fs.writeFileSync(`${generationPath}/${resource.name}Api.ts`, "");
+            resource.jsonContent?.children?.forEach((child) => {
+                fs.appendFileSync(
+                    `${generationPath}/${resource.name}Api.ts`,
+                    `import ${this.capitalizeFirstLetter(child)}Api from "./${this.capitalizeFirstLetter(child)}Api";${EOL}`
+                )
+            });
             fs.appendFileSync(
                 `${generationPath}/${resource.name}Api.ts`,
                 `import BaseApi from "../../BaseApi";${EOL}` +
+                `import { Token } from "../../IUserAuthentication";${EOL}` +
                     `import { ${this.capitalizeFirstLetter(
                         resource.name
                     )} } from "../resources/${this.capitalizeFirstLetter(
@@ -311,6 +299,28 @@ class TypescriptCodegenHelper {
                         );
                         break;
                 }
+            });
+
+            if(resource.jsonContent?.children != undefined){
+                fs.appendFileSync(
+                    `${generationPath}/${resource.name}Api.ts`,
+                    `
+\t/**
+\t* ${resource.name} children APIs
+\t*/${EOL}`
+                );
+            }
+            resource.jsonContent?.children?.forEach((child) => {
+                fs.appendFileSync(
+                    `${generationPath}/${resource.name}Api.ts`,
+                    `\tpublic get${this.capitalizeFirstLetter(
+                        child
+                    )}Api = (${resource.name.toLowerCase()}Id: string, token: Token) => {${EOL}` +
+                    `\t\treturn new ${this.capitalizeFirstLetter(
+                        child
+                    )}Api(this.priorPath + ${resource.name.toUpperCase()}_ROUTE + "/" + ${resource.name.toLowerCase()}Id, token);${EOL}` +
+                    `\t}${EOL}`
+                )
             });
 
             fs.appendFileSync(

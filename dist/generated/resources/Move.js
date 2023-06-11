@@ -1,141 +1,118 @@
-import { Token, Role } from '../../IUserAuthentication';
-// To parse this data:
-//
-//   import { Convert, Move } from "./file";
-//
-//   const move = Convert.toMove(json);
-//
-// These functions will throw an error if the JSON doesn't
-// match the expected interface, even if the JSON is valid.
-
-/**
- * A pokemon's move.
- */
-export interface Move {
-    accuracy?:     number;
-    category?:     Category;
-    energyPoints?: number;
-    id:            number;
-    pokemonId?:    number;
-    power?:        number;
-    type?:         Type;
-    [property: string]: any;
-}
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MoveConverter = exports.Type = exports.Category = void 0;
 /**
  * A pokemon move's category.
  */
-export enum Category {
-    Physical = "Physical",
-    Special = "Special",
-    Status = "Status",
-}
-
+var Category;
+(function (Category) {
+    Category["Physical"] = "Physical";
+    Category["Special"] = "Special";
+    Category["Status"] = "Status";
+})(Category || (exports.Category = Category = {}));
 /**
  * A pokemon's type.
  */
-export enum Type {
-    Bug = "bug",
-    Dark = "dark",
-    Dragon = "dragon",
-    Electric = "electric",
-    Fairy = "fairy",
-    Fighting = "fighting",
-    Fire = "fire",
-    Flying = "flying",
-    Ghost = "ghost",
-    Grass = "grass",
-    Ground = "ground",
-    Ice = "ice",
-    Normal = "normal",
-    Poison = "poison",
-    Psychic = "psychic",
-    Rock = "rock",
-    Steel = "steel",
-    Water = "water",
-}
-
+var Type;
+(function (Type) {
+    Type["Bug"] = "bug";
+    Type["Dark"] = "dark";
+    Type["Dragon"] = "dragon";
+    Type["Electric"] = "electric";
+    Type["Fairy"] = "fairy";
+    Type["Fighting"] = "fighting";
+    Type["Fire"] = "fire";
+    Type["Flying"] = "flying";
+    Type["Ghost"] = "ghost";
+    Type["Grass"] = "grass";
+    Type["Ground"] = "ground";
+    Type["Ice"] = "ice";
+    Type["Normal"] = "normal";
+    Type["Poison"] = "poison";
+    Type["Psychic"] = "psychic";
+    Type["Rock"] = "rock";
+    Type["Steel"] = "steel";
+    Type["Water"] = "water";
+})(Type || (exports.Type = Type = {}));
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
-export class MoveConverter {
-    public static toMove(json: string): Move {
+class MoveConverter {
+    static toMove(json) {
         return cast(JSON.parse(json), r("Move"));
     }
-
-    public static moveToJson(value: Move): string {
+    static moveToJson(value) {
         return JSON.stringify(uncast(value, r("Move")), null, 2);
     }
 }
-
-function invalidValue(typ: any, val: any, key: any, parent: any = ''): never {
+exports.MoveConverter = MoveConverter;
+function invalidValue(typ, val, key, parent = '') {
     const prettyTyp = prettyTypeName(typ);
     const parentText = parent ? ` on ${parent}` : '';
     const keyText = key ? ` for key "${key}"` : '';
     throw Error(`Invalid value${keyText}${parentText}. Expected ${prettyTyp} but got ${JSON.stringify(val)}`);
 }
-
-function prettyTypeName(typ: any): string {
+function prettyTypeName(typ) {
     if (Array.isArray(typ)) {
         if (typ.length === 2 && typ[0] === undefined) {
             return `an optional ${prettyTypeName(typ[1])}`;
-        } else {
+        }
+        else {
             return `one of [${typ.map(a => { return prettyTypeName(a); }).join(", ")}]`;
         }
-    } else if (typeof typ === "object" && typ.literal !== undefined) {
+    }
+    else if (typeof typ === "object" && typ.literal !== undefined) {
         return typ.literal;
-    } else {
+    }
+    else {
         return typeof typ;
     }
 }
-
-function jsonToJSProps(typ: any): any {
+function jsonToJSProps(typ) {
     if (typ.jsonToJS === undefined) {
-        const map: any = {};
-        typ.props.forEach((p: any) => map[p.json] = { key: p.js, typ: p.typ });
+        const map = {};
+        typ.props.forEach((p) => map[p.json] = { key: p.js, typ: p.typ });
         typ.jsonToJS = map;
     }
     return typ.jsonToJS;
 }
-
-function jsToJSONProps(typ: any): any {
+function jsToJSONProps(typ) {
     if (typ.jsToJSON === undefined) {
-        const map: any = {};
-        typ.props.forEach((p: any) => map[p.js] = { key: p.json, typ: p.typ });
+        const map = {};
+        typ.props.forEach((p) => map[p.js] = { key: p.json, typ: p.typ });
         typ.jsToJSON = map;
     }
     return typ.jsToJSON;
 }
-
-function transform(val: any, typ: any, getProps: any, key: any = '', parent: any = ''): any {
-    function transformPrimitive(typ: string, val: any): any {
-        if (typeof typ === typeof val) return val;
+function transform(val, typ, getProps, key = '', parent = '') {
+    function transformPrimitive(typ, val) {
+        if (typeof typ === typeof val)
+            return val;
         return invalidValue(typ, val, key, parent);
     }
-
-    function transformUnion(typs: any[], val: any): any {
+    function transformUnion(typs, val) {
         // val must validate against one typ in typs
         const l = typs.length;
         for (let i = 0; i < l; i++) {
             const typ = typs[i];
             try {
                 return transform(val, typ, getProps);
-            } catch (_) {}
+            }
+            catch (_) { }
         }
         return invalidValue(typs, val, key, parent);
     }
-
-    function transformEnum(cases: string[], val: any): any {
-        if (cases.indexOf(val) !== -1) return val;
+    function transformEnum(cases, val) {
+        if (cases.indexOf(val) !== -1)
+            return val;
         return invalidValue(cases.map(a => { return l(a); }), val, key, parent);
     }
-
-    function transformArray(typ: any, val: any): any {
+    function transformArray(typ, val) {
         // val must be an array with no invalid elements
-        if (!Array.isArray(val)) return invalidValue(l("array"), val, key, parent);
+        if (!Array.isArray(val))
+            return invalidValue(l("array"), val, key, parent);
         return val.map(el => transform(el, typ, getProps));
     }
-
-    function transformDate(val: any): any {
+    function transformDate(val) {
         if (val === null) {
             return null;
         }
@@ -145,12 +122,11 @@ function transform(val: any, typ: any, getProps: any, key: any = '', parent: any
         }
         return d;
     }
-
-    function transformObject(props: { [k: string]: any }, additional: any, val: any): any {
+    function transformObject(props, additional, val) {
         if (val === null || typeof val !== "object" || Array.isArray(val)) {
             return invalidValue(l(ref || "object"), val, key, parent);
         }
-        const result: any = {};
+        const result = {};
         Object.getOwnPropertyNames(props).forEach(key => {
             const prop = props[key];
             const v = Object.prototype.hasOwnProperty.call(val, key) ? val[key] : undefined;
@@ -163,63 +139,58 @@ function transform(val: any, typ: any, getProps: any, key: any = '', parent: any
         });
         return result;
     }
-
-    if (typ === "any") return val;
+    if (typ === "any")
+        return val;
     if (typ === null) {
-        if (val === null) return val;
+        if (val === null)
+            return val;
         return invalidValue(typ, val, key, parent);
     }
-    if (typ === false) return invalidValue(typ, val, key, parent);
-    let ref: any = undefined;
+    if (typ === false)
+        return invalidValue(typ, val, key, parent);
+    let ref = undefined;
     while (typeof typ === "object" && typ.ref !== undefined) {
         ref = typ.ref;
         typ = typeMap[typ.ref];
     }
-    if (Array.isArray(typ)) return transformEnum(typ, val);
+    if (Array.isArray(typ))
+        return transformEnum(typ, val);
     if (typeof typ === "object") {
         return typ.hasOwnProperty("unionMembers") ? transformUnion(typ.unionMembers, val)
-            : typ.hasOwnProperty("arrayItems")    ? transformArray(typ.arrayItems, val)
-            : typ.hasOwnProperty("props")         ? transformObject(getProps(typ), typ.additional, val)
-            : invalidValue(typ, val, key, parent);
+            : typ.hasOwnProperty("arrayItems") ? transformArray(typ.arrayItems, val)
+                : typ.hasOwnProperty("props") ? transformObject(getProps(typ), typ.additional, val)
+                    : invalidValue(typ, val, key, parent);
     }
     // Numbers can be parsed by Date but shouldn't be.
-    if (typ === Date && typeof val !== "number") return transformDate(val);
+    if (typ === Date && typeof val !== "number")
+        return transformDate(val);
     return transformPrimitive(typ, val);
 }
-
-function cast<T>(val: any, typ: any): T {
+function cast(val, typ) {
     return transform(val, typ, jsonToJSProps);
 }
-
-function uncast<T>(val: T, typ: any): any {
+function uncast(val, typ) {
     return transform(val, typ, jsToJSONProps);
 }
-
-function l(typ: any) {
+function l(typ) {
     return { literal: typ };
 }
-
-function a(typ: any) {
+function a(typ) {
     return { arrayItems: typ };
 }
-
-function u(...typs: any[]) {
+function u(...typs) {
     return { unionMembers: typs };
 }
-
-function o(props: any[], additional: any) {
+function o(props, additional) {
     return { props, additional };
 }
-
-function m(additional: any) {
+function m(additional) {
     return { props: [], additional };
 }
-
-function r(name: string) {
+function r(name) {
     return { ref: name };
 }
-
-const typeMap: any = {
+const typeMap = {
     "Move": o([
         { json: "accuracy", js: "accuracy", typ: u(undefined, 0) },
         { json: "category", js: "category", typ: u(undefined, r("Category")) },
@@ -255,4 +226,4 @@ const typeMap: any = {
         "water",
     ],
 };
-
+//# sourceMappingURL=Move.js.map
