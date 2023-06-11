@@ -21,8 +21,8 @@ class BaseApi {
         this.axiosConfig = {};
         this.priorPath = priorPath;
         this.axiosConfig = {
-            data: {
-                token: token
+            headers: {
+                Authorization: `Bearer ${token}`
             }
         };
     }

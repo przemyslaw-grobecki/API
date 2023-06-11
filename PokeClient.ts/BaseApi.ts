@@ -8,8 +8,8 @@ export default abstract class BaseApi<T> {
     public constructor(priorPath: string = "", token : Token){
         this.priorPath = priorPath;
         this.axiosConfig = {
-            data: {
-                token: token
+            headers: {
+                Authorization: `Bearer ${token}`
             }
         }
     }
