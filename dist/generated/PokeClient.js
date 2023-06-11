@@ -22,9 +22,11 @@ class PokeClient {
     }
     Login(username, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield axios_1.default.post(this.endpoint + "/auth/login", {
-                username: username,
-                password: password
+            return yield axios_1.default.post(this.endpoint + "/auth/login", {}, {
+                auth: {
+                    username: username,
+                    password: password
+                }
             });
         });
     }

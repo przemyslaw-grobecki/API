@@ -7,7 +7,7 @@ export default class PokeClient implements IPokeClient {
     endpoint: string;
     constructor(host: string, port: string);
     Login(username: string, password: string): Promise<Token>;
-    Register(email: string, password: string, firstName: string, lastName: string, role: Role): Promise<Token>;
+    Register(email: string, password: string, firstName: string, lastName: string, role: Role): Promise<void>;
     getLeagueApi(token: Token): LeagueApi;
     getPokemonApi(token: Token): PokemonApi;
     getUserApi(token: Token): UserApi;
