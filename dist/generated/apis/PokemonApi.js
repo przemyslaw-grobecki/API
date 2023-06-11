@@ -20,19 +20,19 @@ class PokemonApi extends BaseApi_1.default {
         /**	 * Standard CRUD	 */
         super(...arguments);
         this.Post = (pokemon) => __awaiter(this, void 0, void 0, function* () {
-            yield this.HttpPost(this.priorPath + PokemonRoute_1.POKEMON_ROUTE, pokemon);
+            yield this.HttpPost(PokemonRoute_1.POKEMON_ROUTE, pokemon);
         });
         this.Patch = (id, patch) => __awaiter(this, void 0, void 0, function* () {
-            return yield this.HttpPatch(this.priorPath + PokemonRoute_1.POKEMON_ROUTE + "/" + id, patch);
+            return yield this.HttpPatch(PokemonRoute_1.POKEMON_ROUTE + "/" + id, patch);
         });
         this.Delete = (id) => __awaiter(this, void 0, void 0, function* () {
-            yield this.HttpDelete(this.priorPath + PokemonRoute_1.POKEMON_ROUTE + "/" + id);
+            yield this.HttpDelete(PokemonRoute_1.POKEMON_ROUTE + "/" + id);
         });
         this.GetAll = () => __awaiter(this, void 0, void 0, function* () {
-            return yield this.HttpGetAll(this.priorPath + PokemonRoute_1.POKEMON_ROUTE);
+            return yield this.HttpGetAll(PokemonRoute_1.POKEMON_ROUTE);
         });
         this.Get = (id) => __awaiter(this, void 0, void 0, function* () {
-            return yield this.HttpGet(this.priorPath + PokemonRoute_1.POKEMON_ROUTE + "/" + id);
+            return yield this.HttpGet(PokemonRoute_1.POKEMON_ROUTE + "/" + id);
         });
         /**
         * Pokemon children APIs

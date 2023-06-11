@@ -35,15 +35,15 @@ export default class PokeClient implements IPokeClient
     }
 
 	getLeagueApi(token : Token) : LeagueApi {
-                    return new LeagueApi(this.endpoint, token);
+                    return new LeagueApi(this.endpoint + "/api", token);
                 }
 
 	getPokemonApi(token : Token) : PokemonApi {
-                    return new PokemonApi(this.endpoint, token);
+                    return new PokemonApi(this.endpoint + "/api", token);
                 }
 
 	getUserApi(token : Token) : UserApi {
-                    return new UserApi(this.endpoint, token);
+                    return new UserApi(this.endpoint + "/api", token);
                 }
 
 } 

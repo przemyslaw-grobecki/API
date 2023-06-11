@@ -19,19 +19,19 @@ class MoveApi extends BaseApi_1.default {
         /**	 * Standard CRUD	 */
         super(...arguments);
         this.Post = (move) => __awaiter(this, void 0, void 0, function* () {
-            yield this.HttpPost(this.priorPath + MoveRoute_1.MOVE_ROUTE, move);
+            yield this.HttpPost(MoveRoute_1.MOVE_ROUTE, move);
         });
         this.Patch = (id, patch) => __awaiter(this, void 0, void 0, function* () {
-            return yield this.HttpPatch(this.priorPath + MoveRoute_1.MOVE_ROUTE + "/" + id, patch);
+            return yield this.HttpPatch(MoveRoute_1.MOVE_ROUTE + "/" + id, patch);
         });
         this.Delete = (id) => __awaiter(this, void 0, void 0, function* () {
-            yield this.HttpDelete(this.priorPath + MoveRoute_1.MOVE_ROUTE + "/" + id);
+            yield this.HttpDelete(MoveRoute_1.MOVE_ROUTE + "/" + id);
         });
         this.GetAll = () => __awaiter(this, void 0, void 0, function* () {
-            return yield this.HttpGetAll(this.priorPath + MoveRoute_1.MOVE_ROUTE);
+            return yield this.HttpGetAll(MoveRoute_1.MOVE_ROUTE);
         });
         this.Get = (id) => __awaiter(this, void 0, void 0, function* () {
-            return yield this.HttpGet(this.priorPath + MoveRoute_1.MOVE_ROUTE + "/" + id);
+            return yield this.HttpGet(MoveRoute_1.MOVE_ROUTE + "/" + id);
         });
     }
 }

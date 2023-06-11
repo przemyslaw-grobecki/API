@@ -20,19 +20,19 @@ class LeagueApi extends BaseApi_1.default {
         /**	 * Standard CRUD	 */
         super(...arguments);
         this.Post = (league) => __awaiter(this, void 0, void 0, function* () {
-            yield this.HttpPost(this.priorPath + LeagueRoute_1.LEAGUE_ROUTE, league);
+            yield this.HttpPost(LeagueRoute_1.LEAGUE_ROUTE, league);
         });
         this.Patch = (id, patch) => __awaiter(this, void 0, void 0, function* () {
-            return yield this.HttpPatch(this.priorPath + LeagueRoute_1.LEAGUE_ROUTE + "/" + id, patch);
+            return yield this.HttpPatch(LeagueRoute_1.LEAGUE_ROUTE + "/" + id, patch);
         });
         this.Delete = (id) => __awaiter(this, void 0, void 0, function* () {
-            yield this.HttpDelete(this.priorPath + LeagueRoute_1.LEAGUE_ROUTE + "/" + id);
+            yield this.HttpDelete(LeagueRoute_1.LEAGUE_ROUTE + "/" + id);
         });
         this.GetAll = () => __awaiter(this, void 0, void 0, function* () {
-            return yield this.HttpGetAll(this.priorPath + LeagueRoute_1.LEAGUE_ROUTE);
+            return yield this.HttpGetAll(LeagueRoute_1.LEAGUE_ROUTE);
         });
         this.Get = (id) => __awaiter(this, void 0, void 0, function* () {
-            return yield this.HttpGet(this.priorPath + LeagueRoute_1.LEAGUE_ROUTE + "/" + id);
+            return yield this.HttpGet(LeagueRoute_1.LEAGUE_ROUTE + "/" + id);
         });
         /**
         * League children APIs

@@ -20,19 +20,19 @@ class UserApi extends BaseApi_1.default {
         /**	 * Standard CRUD	 */
         super(...arguments);
         this.Post = (user) => __awaiter(this, void 0, void 0, function* () {
-            yield this.HttpPost(this.priorPath + UserRoute_1.USER_ROUTE, user);
+            yield this.HttpPost(UserRoute_1.USER_ROUTE, user);
         });
         this.Patch = (id, patch) => __awaiter(this, void 0, void 0, function* () {
-            return yield this.HttpPatch(this.priorPath + UserRoute_1.USER_ROUTE + "/" + id, patch);
+            return yield this.HttpPatch(UserRoute_1.USER_ROUTE + "/" + id, patch);
         });
         this.Delete = (id) => __awaiter(this, void 0, void 0, function* () {
-            yield this.HttpDelete(this.priorPath + UserRoute_1.USER_ROUTE + "/" + id);
+            yield this.HttpDelete(UserRoute_1.USER_ROUTE + "/" + id);
         });
         this.GetAll = () => __awaiter(this, void 0, void 0, function* () {
-            return yield this.HttpGetAll(this.priorPath + UserRoute_1.USER_ROUTE);
+            return yield this.HttpGetAll(UserRoute_1.USER_ROUTE);
         });
         this.Get = (id) => __awaiter(this, void 0, void 0, function* () {
-            return yield this.HttpGet(this.priorPath + UserRoute_1.USER_ROUTE + "/" + id);
+            return yield this.HttpGet(UserRoute_1.USER_ROUTE + "/" + id);
         });
         /**
         * User children APIs

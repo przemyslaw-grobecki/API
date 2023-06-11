@@ -251,13 +251,13 @@ class TypescriptCodegenHelper {
 \tpublic GetAll = async () : Promise<Array<${this.capitalizeFirstLetter(
                                 resource.name
                             )}>> => {
-\t\treturn await this.HttpGetAll(this.priorPath + ${resource.name.toUpperCase()}_ROUTE);
+\t\treturn await this.HttpGetAll(${resource.name.toUpperCase()}_ROUTE);
 \t}
 
 \tpublic Get = async (id: string) : Promise<${this.capitalizeFirstLetter(
                                 resource.name
                             )}> => {
-\t\treturn await this.HttpGet(this.priorPath + ${resource.name.toUpperCase()}_ROUTE + "/" + id);
+\t\treturn await this.HttpGet(${resource.name.toUpperCase()}_ROUTE + "/" + id);
 \t}
 `
                         );
@@ -269,7 +269,7 @@ class TypescriptCodegenHelper {
 \tpublic Post = async (${resource.name.toLowerCase()}: ${this.capitalizeFirstLetter(
                                 resource.name
                             )}) : Promise<void> => {
-\t\tawait this.HttpPost(this.priorPath + ${resource.name.toUpperCase()}_ROUTE, ${resource.name.toLowerCase()});
+\t\tawait this.HttpPost(${resource.name.toUpperCase()}_ROUTE, ${resource.name.toLowerCase()});
 \t}
 `
                         );
@@ -283,7 +283,7 @@ class TypescriptCodegenHelper {
                             )}) : Promise<${this.capitalizeFirstLetter(
                                 resource.name
                             )}> => {
-\t\treturn await this.HttpPatch(this.priorPath + ${resource.name.toUpperCase()}_ROUTE + "/" + id, patch);
+\t\treturn await this.HttpPatch(${resource.name.toUpperCase()}_ROUTE + "/" + id, patch);
 \t}
 `
                         );
@@ -293,7 +293,7 @@ class TypescriptCodegenHelper {
                             `${generationPath}/${resource.name}Api.ts`,
                             `
 \tpublic Delete = async (id: string) : Promise<void> => {
-\t\tawait this.HttpDelete(this.priorPath + ${resource.name.toUpperCase()}_ROUTE + "/" + id);
+\t\tawait this.HttpDelete(${resource.name.toUpperCase()}_ROUTE + "/" + id);
 \t}
 `
                         );
@@ -436,7 +436,7 @@ export default class PokeClient implements IPokeClient
                     )}Api(token : Token) : ${this.capitalizeFirstLetter(resource.name)}Api {
                     return new ${this.capitalizeFirstLetter(
                         resource.name
-                    )}Api(this.endpoint, token);
+                    )}Api(this.endpoint + "/api", token);
                 }
 `
                 );

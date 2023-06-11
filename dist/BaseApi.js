@@ -37,7 +37,7 @@ class BaseApi {
      */
     HttpGetAll(route) {
         return __awaiter(this, void 0, void 0, function* () {
-            const resourceResponse = yield axios_1.default.get(route, this.axiosConfig);
+            const resourceResponse = yield axios_1.default.get(this.priorPath + route, this.axiosConfig);
             return resourceResponse.data;
         });
     }
@@ -48,7 +48,7 @@ class BaseApi {
      */
     HttpGet(route) {
         return __awaiter(this, void 0, void 0, function* () {
-            const resourceResponse = yield axios_1.default.get(route, this.axiosConfig);
+            const resourceResponse = yield axios_1.default.get(this.priorPath + route, this.axiosConfig);
             return resourceResponse.data;
         });
     }
@@ -58,7 +58,7 @@ class BaseApi {
      */
     HttpPost(route, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield axios_1.default.post(route, data, this.axiosConfig);
+            yield axios_1.default.post(this.priorPath + route, data, this.axiosConfig);
         });
     }
     /**
@@ -67,7 +67,7 @@ class BaseApi {
      */
     HttpDelete(route) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield axios_1.default.delete(route, this.axiosConfig);
+            yield axios_1.default.delete(this.priorPath + route, this.axiosConfig);
         });
     }
     /**
@@ -76,7 +76,7 @@ class BaseApi {
      */
     HttpPatch(route, patch) {
         return __awaiter(this, void 0, void 0, function* () {
-            const patchedResourceResponse = yield axios_1.default.patch(route, patch, this.axiosConfig);
+            const patchedResourceResponse = yield axios_1.default.patch(this.priorPath + route, patch, this.axiosConfig);
             return patchedResourceResponse.data;
         });
     }

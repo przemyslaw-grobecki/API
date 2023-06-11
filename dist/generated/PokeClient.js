@@ -43,13 +43,13 @@ class PokeClient {
         });
     }
     getLeagueApi(token) {
-        return new LeagueApi_1.default(this.endpoint, token);
+        return new LeagueApi_1.default(this.endpoint + "/api", token);
     }
     getPokemonApi(token) {
-        return new PokemonApi_1.default(this.endpoint, token);
+        return new PokemonApi_1.default(this.endpoint + "/api", token);
     }
     getUserApi(token) {
-        return new UserApi_1.default(this.endpoint, token);
+        return new UserApi_1.default(this.endpoint + "/api", token);
     }
 }
 exports.default = PokeClient;

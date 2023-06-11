@@ -32,7 +32,7 @@ export default abstract class BaseApi<T> {
      * @returns get 
      */
     protected async HttpGetAll(route: string) : Promise<Array<T>> {
-        const resourceResponse = await axios.get<Array<T>>(route, this.axiosConfig);
+        const resourceResponse = await axios.get<Array<T>>(this.priorPath + route, this.axiosConfig);
         return resourceResponse.data;
     }
 
@@ -42,7 +42,7 @@ export default abstract class BaseApi<T> {
      * @returns get 
      */
     protected async HttpGet(route: string) : Promise<T> {
-        const resourceResponse = await axios.get<T>(route, this.axiosConfig);
+        const resourceResponse = await axios.get<T>(this.priorPath + route, this.axiosConfig);
         return resourceResponse.data;
     }
 
@@ -51,7 +51,7 @@ export default abstract class BaseApi<T> {
      * @param route 
      */
     protected async HttpPost(route: string, data: T) : Promise<void> {
-        await axios.post(route, data, this.axiosConfig);
+        await axios.post(this.priorPath + route, data, this.axiosConfig);
     }
 
     /**
@@ -59,7 +59,7 @@ export default abstract class BaseApi<T> {
      * @param route 
      */
     protected async HttpDelete(route: string) : Promise<void> {
-        await axios.delete(route, this.axiosConfig);
+        await axios.delete(this.priorPath + route, this.axiosConfig);
     }
 
     /**
@@ -67,7 +67,7 @@ export default abstract class BaseApi<T> {
      * @param route 
      */
     protected async HttpPatch(route: string, patch: T) : Promise<T> {
-        const patchedResourceResponse = await axios.patch(route, patch, this.axiosConfig);
+        const patchedResourceResponse = await axios.patch(this.priorPath + route, patch, this.axiosConfig);
         return patchedResourceResponse.data;
     }
 }

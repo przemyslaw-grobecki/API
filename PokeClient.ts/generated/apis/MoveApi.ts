@@ -7,22 +7,22 @@ export default class MoveApi extends BaseApi<Move> {
 	/**	 * Standard CRUD	 */
 
 	public Post = async (move: Move) : Promise<void> => {
-		await this.HttpPost(this.priorPath + MOVE_ROUTE, move);
+		await this.HttpPost(MOVE_ROUTE, move);
 	}
       
 	public Patch = async (id: string, patch: Move) : Promise<Move> => {
-		return await this.HttpPatch(this.priorPath + MOVE_ROUTE + "/" + id, patch);
+		return await this.HttpPatch(MOVE_ROUTE + "/" + id, patch);
 	}
 
 	public Delete = async (id: string) : Promise<void> => {
-		await this.HttpDelete(this.priorPath + MOVE_ROUTE + "/" + id);
+		await this.HttpDelete(MOVE_ROUTE + "/" + id);
 	}
 
 	public GetAll = async () : Promise<Array<Move>> => {
-		return await this.HttpGetAll(this.priorPath + MOVE_ROUTE);
+		return await this.HttpGetAll(MOVE_ROUTE);
 	}
 
 	public Get = async (id: string) : Promise<Move> => {
-		return await this.HttpGet(this.priorPath + MOVE_ROUTE + "/" + id);
+		return await this.HttpGet(MOVE_ROUTE + "/" + id);
 	}
 }
