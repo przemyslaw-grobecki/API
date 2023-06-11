@@ -7,7 +7,7 @@ import { USER_ROUTE } from "../routes/UserRoute";
 export default class UserApi extends BaseApi<User> {
 	/**	 * Standard CRUD	 */
 
-	public Post = async (id: string, user: User) : Promise<void> => {
+	public Post = async (user: User) : Promise<void> => {
 		await this.HttpPost(this.priorPath + USER_ROUTE, user);
 	}
       

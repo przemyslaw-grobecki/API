@@ -266,7 +266,7 @@ class TypescriptCodegenHelper {
                         fs.appendFileSync(
                             `${generationPath}/${resource.name}Api.ts`,
                             `
-\tpublic Post = async (id: string, ${resource.name.toLowerCase()}: ${this.capitalizeFirstLetter(
+\tpublic Post = async (${resource.name.toLowerCase()}: ${this.capitalizeFirstLetter(
                                 resource.name
                             )}) : Promise<void> => {
 \t\tawait this.HttpPost(this.priorPath + ${resource.name.toUpperCase()}_ROUTE, ${resource.name.toLowerCase()});

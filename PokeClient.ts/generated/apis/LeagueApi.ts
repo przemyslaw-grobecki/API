@@ -7,7 +7,7 @@ import { LEAGUE_ROUTE } from "../routes/LeagueRoute";
 export default class LeagueApi extends BaseApi<League> {
 	/**	 * Standard CRUD	 */
 
-	public Post = async (id: string, league: League) : Promise<void> => {
+	public Post = async (league: League) : Promise<void> => {
 		await this.HttpPost(this.priorPath + LEAGUE_ROUTE, league);
 	}
       

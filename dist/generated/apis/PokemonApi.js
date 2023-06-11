@@ -19,7 +19,7 @@ class PokemonApi extends BaseApi_1.default {
     constructor() {
         /**	 * Standard CRUD	 */
         super(...arguments);
-        this.Post = (id, pokemon) => __awaiter(this, void 0, void 0, function* () {
+        this.Post = (pokemon) => __awaiter(this, void 0, void 0, function* () {
             yield this.HttpPost(this.priorPath + PokemonRoute_1.POKEMON_ROUTE, pokemon);
         });
         this.Patch = (id, patch) => __awaiter(this, void 0, void 0, function* () {

@@ -18,7 +18,7 @@ class MoveApi extends BaseApi_1.default {
     constructor() {
         /**	 * Standard CRUD	 */
         super(...arguments);
-        this.Post = (id, move) => __awaiter(this, void 0, void 0, function* () {
+        this.Post = (move) => __awaiter(this, void 0, void 0, function* () {
             yield this.HttpPost(this.priorPath + MoveRoute_1.MOVE_ROUTE, move);
         });
         this.Patch = (id, patch) => __awaiter(this, void 0, void 0, function* () {

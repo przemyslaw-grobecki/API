@@ -4,7 +4,7 @@ import { Token } from "../../IUserAuthentication";
 import { League } from "../resources/League";
 export default class LeagueApi extends BaseApi<League> {
     /**	 * Standard CRUD	 */
-    Post: (id: string, league: League) => Promise<void>;
+    Post: (league: League) => Promise<void>;
     Patch: (id: string, patch: League) => Promise<League>;
     Delete: (id: string) => Promise<void>;
     GetAll: () => Promise<Array<League>>;

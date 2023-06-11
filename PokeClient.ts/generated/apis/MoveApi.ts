@@ -6,7 +6,7 @@ import { MOVE_ROUTE } from "../routes/MoveRoute";
 export default class MoveApi extends BaseApi<Move> {
 	/**	 * Standard CRUD	 */
 
-	public Post = async (id: string, move: Move) : Promise<void> => {
+	public Post = async (move: Move) : Promise<void> => {
 		await this.HttpPost(this.priorPath + MOVE_ROUTE, move);
 	}
       

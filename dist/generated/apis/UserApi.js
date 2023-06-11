@@ -19,7 +19,7 @@ class UserApi extends BaseApi_1.default {
     constructor() {
         /**	 * Standard CRUD	 */
         super(...arguments);
-        this.Post = (id, user) => __awaiter(this, void 0, void 0, function* () {
+        this.Post = (user) => __awaiter(this, void 0, void 0, function* () {
             yield this.HttpPost(this.priorPath + UserRoute_1.USER_ROUTE, user);
         });
         this.Patch = (id, patch) => __awaiter(this, void 0, void 0, function* () {

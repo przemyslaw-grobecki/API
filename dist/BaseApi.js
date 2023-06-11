@@ -15,10 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 class BaseApi {
     constructor(priorPath = "", token) {
-        /**
-         * Axios config of base poke resource
-         */
-        this.axiosConfig = {};
         this.priorPath = priorPath;
         this.axiosConfig = {
             headers: {
@@ -27,8 +23,13 @@ class BaseApi {
         };
     }
     refreshToken(token) {
-        this.axiosConfig.data.token = token;
+        this.axiosConfig = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
     }
+    ;
     /**
      * Https get
      * @param route

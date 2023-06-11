@@ -1,12 +1,13 @@
+import { AxiosRequestConfig } from 'axios';
 import { Token } from './IUserAuthentication';
 export default abstract class BaseApi<T> {
-    priorPath: string;
-    constructor(priorPath: string | undefined, token: Token);
-    refreshToken(token: Token): void;
     /**
      * Axios config of base poke resource
      */
-    private axiosConfig;
+    axiosConfig: AxiosRequestConfig;
+    priorPath: string;
+    constructor(priorPath: string | undefined, token: Token);
+    refreshToken(token: Token): void;
     /**
      * Https get
      * @param route

@@ -4,7 +4,7 @@ import { Token } from "../../IUserAuthentication";
 import { User } from "../resources/User";
 export default class UserApi extends BaseApi<User> {
     /**	 * Standard CRUD	 */
-    Post: (id: string, user: User) => Promise<void>;
+    Post: (user: User) => Promise<void>;
     Patch: (id: string, patch: User) => Promise<User>;
     Delete: (id: string) => Promise<void>;
     GetAll: () => Promise<Array<User>>;

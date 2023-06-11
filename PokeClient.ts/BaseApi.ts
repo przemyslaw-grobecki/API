@@ -3,7 +3,11 @@ import { Token } from './IUserAuthentication';
 
 
 export default abstract class BaseApi<T> {
-    priorPath: string;
+    /**
+     * Axios config of base poke resource
+     */
+    public axiosConfig : AxiosRequestConfig;
+    public priorPath: string;
     
     public constructor(priorPath: string = "", token : Token){
         this.priorPath = priorPath;
@@ -14,15 +18,12 @@ export default abstract class BaseApi<T> {
         }
     }
 
-    public refreshToken(token : Token){
-        this.axiosConfig.data.token = token;
-    }
-
-    /**
-     * Axios config of base poke resource
-     */
-    private axiosConfig : AxiosRequestConfig = {
-
+    public refreshToken(token : Token) {
+        this.axiosConfig = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
     };
 
     /**

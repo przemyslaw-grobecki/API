@@ -19,7 +19,7 @@ class LeagueApi extends BaseApi_1.default {
     constructor() {
         /**	 * Standard CRUD	 */
         super(...arguments);
-        this.Post = (id, league) => __awaiter(this, void 0, void 0, function* () {
+        this.Post = (league) => __awaiter(this, void 0, void 0, function* () {
             yield this.HttpPost(this.priorPath + LeagueRoute_1.LEAGUE_ROUTE, league);
         });
         this.Patch = (id, patch) => __awaiter(this, void 0, void 0, function* () {

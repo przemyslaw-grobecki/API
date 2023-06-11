@@ -7,7 +7,7 @@ import { POKEMON_ROUTE } from "../routes/PokemonRoute";
 export default class PokemonApi extends BaseApi<Pokemon> {
 	/**	 * Standard CRUD	 */
 
-	public Post = async (id: string, pokemon: Pokemon) : Promise<void> => {
+	public Post = async (pokemon: Pokemon) : Promise<void> => {
 		await this.HttpPost(this.priorPath + POKEMON_ROUTE, pokemon);
 	}
       
