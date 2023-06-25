@@ -2,6 +2,7 @@
 import IPokeClient from "./IPokeClient";
 import axios from "axios";
 import { Token, Role } from "../IUserAuthentication";
+import CourseApi from "../generated/apis/CourseApi";
 import LeagueApi from "../generated/apis/LeagueApi";
 import MoveApi from "../generated/apis/MoveApi";
 import PokemonApi from "../generated/apis/PokemonApi";
@@ -33,6 +34,10 @@ export default class PokeClient implements IPokeClient
             role: role
         });
     }
+
+	getCourseApi(token : Token) : CourseApi {
+                    return new CourseApi(this.endpoint + "/api", token);
+                }
 
 	getLeagueApi(token : Token) : LeagueApi {
                     return new LeagueApi(this.endpoint + "/api", token);
